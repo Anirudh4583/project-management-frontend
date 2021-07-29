@@ -22,4 +22,14 @@ export default {
   buildOptions: {
     /* ... */
   },
+  alias: {
+    // Type 1: Package Import Alias
+    // lodash: 'lodash-es',
+    // react: 'preact/compat',
+    // Type 2: Local Directory Import Alias (relative to cwd)
+    '@app': './src',
+    '@components': './src/components',
+    '@utils': './src/utils',
+    '@assets': './src/assets',
+  },
 };
