@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { Home, Login } from './components/compIndex';
-import './App.css';
-import PublicRoute from './utils/PublicRoute';
+import React from 'react'
+import { BrowserRouter as Router, Switch } from 'react-router-dom'
+import { Home, Login } from '@components/compIndex'
+import './App.css'
+import PublicRoute from '@utils/PublicRoute'
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 function App() {
   return (
@@ -16,7 +17,7 @@ function App() {
         </div>
       </Router>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
