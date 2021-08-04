@@ -1,11 +1,10 @@
 import React from 'react'
-import { BrowserRouter as Router, Switch } from 'react-router-dom'
-import { Home, Login } from '@components/compIndex'
-import './App.css'
-import PublicRoute from '@utils/Routers/PublicRoute'
-import PrivateRoute from '@utils/Routers/PrivateRoute'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import Dashboard from './components/Login/Dashboard/Dashboard'
+
+import { Home, Login, Dashboard } from './views/viewIndex'
+import PublicRoute from './utils/Routers/PublicRoute'
+import PrivateRoute from './utils/Routers/PrivateRoute'
 
 function App() {
   return (
@@ -15,7 +14,7 @@ function App() {
           <Switch>
             <PublicRoute exact path="/" component={Home} />
             <PublicRoute path="/login" component={Login} />
-            <PrivateRoute path="/dashboard" component={Dashboard} />
+            <PrivateRoute path="/:role/dashboard" component={Dashboard} />
           </Switch>
         </div>
       </Router>

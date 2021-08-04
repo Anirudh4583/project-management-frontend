@@ -30,7 +30,6 @@ function Login() {
         // console.log('api response 🚀', res)
         const userRole = res.data.role
         setSession('dummy_token', userRole)
-        console.log(typeof userRole)
         history.push(`/${userRole}/dashboard`)
       })
       .catch((error) => {

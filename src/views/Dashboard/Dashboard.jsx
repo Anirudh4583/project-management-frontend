@@ -13,8 +13,6 @@ function Dashboard() {
   const params = useParams()
   const userRole = Number(getRole())
 
-  console.log(userRole)
-
   // console.log(params)
 
   return (

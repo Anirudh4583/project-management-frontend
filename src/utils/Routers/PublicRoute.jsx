@@ -1,10 +1,10 @@
 import React from 'react'
 import { Route, Redirect, NavLink } from 'react-router-dom'
-import { getToken } from '@services/LocalStorageService'
+import { getToken } from '../../services/LocalStorageService/LocalStorageService'
 
 function PublicRoute({ component: Component, ...rest }) {
   return (
-    <div className="pr__app">
+    <div className="pubr__app">
       <nav className="navbar navbar-expand navbar-dark bg-dark">
         <a className="navbar-brand" href="/">
           Portal
@@ -29,7 +29,7 @@ function PublicRoute({ component: Component, ...rest }) {
           !getToken() ? (
             <Component {...props} />
           ) : (
-            <Redirect to={{ pathname: '/dashboard' }} />
+            <Redirect to={{ pathname: `/${userRole}/dashboard` }} />
           )
         }
       />
