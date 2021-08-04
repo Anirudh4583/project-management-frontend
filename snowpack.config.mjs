@@ -1,3 +1,5 @@
+import proxy from 'http2-proxy'
+
 /** @type {import("snowpack").SnowpackUserConfig } */
 export default {
   mount: {
@@ -11,6 +13,18 @@ export default {
       src: '.*',
       dest: '/index.html',
     },
+    // {
+    //   src: '/api/.*',
+    //   dest: (req, res) => {
+    //     // remove /api prefix (optional)
+    //     req.url = req.url.replace(/api/, '')
+
+    //     return proxy.web(req, res, {
+    //       hostname: 'localhost',
+    //       port: 3001,
+    //     })
+    //   },
+    // },
     // {
     //   match: 'all',
     //   src: '/api/.*',

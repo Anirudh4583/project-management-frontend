@@ -1,11 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import { FaKey, FaUser } from 'react-icons/fa'
 import { useForm } from 'react-hook-form'
 import { loginSchema } from '@services/ValidationSchema'
 import { yupResolver } from '@hookform/resolvers/yup'
+import axios from 'axios'
+import { setSession } from '../../services/LocalStorageService'
 
-function Login() {
+var userRole = null
+
+function Login(props) {
   const {
     register,
     handleSubmit,
@@ -15,8 +19,23 @@ function Login() {
   })
 
   function onSubmit(data, e) {
-    console.log(data, e)
+    // console.log(data)
     alert('SUCCESS!🚀')
+
+    axios
+      .post('http://localhost:3001/auth/login', {
+        email: data.email,
+        password: data.password,
+      })
+      .then((res) => {
+        console.log('api response 🚀', res)
+        setSession('dummy_token')
+        userRole = res.data.role
+        props.history.push('/dashboard')
+      })
+      .catch((error) => {
+        console.error(error.response)
+      })
   }
 
   function onError(data, e) {
@@ -42,15 +61,13 @@ function Login() {
               </div>
               <input
                 type="text"
-                {...register('username')}
-                className={`form-control ${
-                  errors.username ? 'is-invalid' : ''
-                }`}
-                placeholder="Username"
+                {...register('email')}
+                className={`form-control ${errors.email ? 'is-invalid' : ''}`}
+                placeholder="email"
               />
             </div>
             <div className="invalid-feeback text-danger mx-4">
-              {errors.username?.message}
+              {errors.email?.message}
             </div>
           </div>
           <div className="form-group m-3 has-validation">
@@ -100,3 +117,4 @@ function Login() {
 }
 
 export default Login
+export { userRole }
