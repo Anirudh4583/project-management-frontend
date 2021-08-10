@@ -1,9 +1,12 @@
 import React from 'react'
+import FormMaker from '../../../components/FormMaker'
 
 function AdminDash() {
   return (
-    <div>
+    <div className="AdminDash__app">
       <h1>Hi Admin</h1>
+
+      <FormMaker />
     </div>
   )
 }

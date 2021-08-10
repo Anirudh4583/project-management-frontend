@@ -1,8 +1,12 @@
 import React from 'react'
 import { Route, Redirect, NavLink } from 'react-router-dom'
-import { getToken } from '../../services/LocalStorageService/LocalStorageService'
+import {
+  getRole,
+  getToken,
+} from '../../services/LocalStorageService/LocalStorageService'
 
 function PublicRoute({ component: Component, ...rest }) {
+  const userRole = getRole()
   return (
     <div className="pubr__app">
       <nav className="navbar navbar-expand navbar-dark bg-dark">

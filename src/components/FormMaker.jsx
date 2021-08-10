@@ -1,0 +1,158 @@
+import React, { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { formMakerSchema } from '../services/ValidationSchemas/ValidationSchema'
+import FormField from './FormField'
+
+function FormMaker() {
+  const [fields, setFields] = useState([1])
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    watch,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(formMakerSchema),
+  })
+
+  const watchFields = watch('numberOfFields')
+  //   console.log(watchFields)
+
+  function fieldNumbers() {
+    return [...Array(parseInt(watchFields || 0)).keys()]
+  }
+  //   console.log(fieldNumbers())
+
+  function onSubmit(data, e) {
+    console.log(data, e)
+    alert('SUCCESS!\n\n' + JSON.stringify(data, null, 4))
+    db.collection('forms')
+      .doc('camp' + nanoid())
+      .set(data)
+  }
+
+  function onError(data, e) {
+    console.log(data, e)
+  }
+
+  return (
+    <div className="FormMaker__app">
+      <div className="card">
+        <div className="card-header text-left bg-light fw-bold form-control-lg">
+          Create Form
+        </div>
+        <form
+          onSubmit={handleSubmit(onSubmit, onError)}
+          onReset={() =>
+            reset({
+              formName: '',
+              deadline: '',
+              numberOfFields: '',
+            })
+          }
+          className="card-body"
+        >
+          <ul className="list-grou list-group-flush">
+            <li className="list-group-item">
+              <div className="ms-2 me-auto">
+                <div className="fw-bold">Form Details</div>
+                <div className="form-row row mb-3">
+                  <div className="form-group col-md-3 col-sm-4 has-validation">
+                    <label htmlFor="inputName">Form Name</label>
+                    <input
+                      type="text"
+                      {...register('formName')}
+                      className={`form-control ${
+                        errors.formName ? 'is-invalid' : ''
+                      }`}
+                      id="inputName"
+                      placeholder="Form 1"
+                    />
+                    <div className="invalid-feeback text-danger">
+                      {errors.formName?.message}
+                    </div>
+                  </div>
+
+                  <div className="form-group col-md-3 col-sm-4">
+                    <label htmlFor="inputDate">Deadline</label>
+                    <input
+                      type="date"
+                      {...register('deadline')}
+                      className={`form-control ${
+                        errors?.deadline ? 'is-invalid' : ''
+                      }`}
+                      id="inputDate"
+                    />
+                    <div className="invalid-feeback text-danger">
+                      {errors.deadline?.message}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li className="list-group-item">
+              <div className="ms-2 me-auto">
+                <div className="fw-bold">Form Fields</div>
+
+                <div className="form-row row">
+                  <div className="form-group col-md-2 col-sm-3 has-validation">
+                    <label htmlFor="numberOfFields">Number of Fileds</label>
+                    <select
+                      name="numberOfFields"
+                      {...register('numberOfFields')}
+                      className={`form-control ${
+                        errors.numberOfFields ? 'is-invalid' : ''
+                      }`}
+                      id="numberOfFields"
+                    >
+                      {['', 1, 2, 3, 4, 5].map((i) => (
+                        <option key={i} value={i}>
+                          {i}
+                        </option>
+                      ))}
+                    </select>
+                    <div className="invalid-feedback">
+                      {errors.numberOfFields?.message}
+                    </div>
+                  </div>
+                </div>
+                {fieldNumbers().map((field) => (
+                  <FormField
+                    field={field}
+                    register={register}
+                    errors={errors}
+                  />
+                ))}
+
+                {/* <div className="form-group mt-3">
+                  <div className="form-check form-switch">
+                    <input
+                      type="checkbox"
+                      className="form-check-input"
+                      id="inputRev"
+                    />
+                    <label className="form-check-label" htmlFor="inputRev">
+                      Send order for review
+                    </label>
+                  </div>
+                </div> */}
+              </div>
+            </li>
+          </ul>
+          <div className="text-center">
+            <button type="submit" className="btn btn-primary mx-3">
+              Save Form
+            </button>
+            <button type="reset" className="btn btn-secondary mx-3">
+              Reset
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  )
+}
+
+export default FormMaker
