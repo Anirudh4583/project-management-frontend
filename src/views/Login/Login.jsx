@@ -22,7 +22,7 @@ function Login() {
     // alert('SUCCESS!🚀')
 
     axios
-      .post('http://localhost:3001/auth/login', {
+      .post('http://localhost:3001/api/auth/login', {
         email: data.email,
         password: data.password,
       })
