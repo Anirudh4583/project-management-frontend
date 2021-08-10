@@ -12,6 +12,7 @@ export const removeSession = () => {
 }
 
 export const setSession = (token, role) => {
+  console.log(token,role);
   if (!localStorage.getItem('token')) localStorage.setItem('token', token)
   if (!localStorage.getItem('role')) localStorage.setItem('role', role)
 }
