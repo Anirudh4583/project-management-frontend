@@ -1,15 +1,13 @@
 import React, { useState } from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useHistory } from 'react-router-dom'
 import { FaKey, FaUser } from 'react-icons/fa'
 import { useForm } from 'react-hook-form'
-import { loginSchema } from '@services/ValidationSchema'
 import { yupResolver } from '@hookform/resolvers/yup'
 import axios from 'axios'
-import { setSession } from '../../services/LocalStorageService'
+import { setSession } from '../../services/LocalStorageService/LocalStorageService'
+import { loginSchema } from '../../services/ValidationSchemas/ValidationSchema'
 
-var userRole = null
-
-function Login(props) {
+function Login() {
   const {
     register,
     handleSubmit,
@@ -17,10 +15,11 @@ function Login(props) {
   } = useForm({
     resolver: yupResolver(loginSchema),
   })
+  const history = useHistory()
 
   function onSubmit(data, e) {
     // console.log(data)
-    alert('SUCCESS!🚀')
+    // alert('SUCCESS!🚀')
 
     axios
       .post('http://localhost:3001/auth/login', {
@@ -28,10 +27,10 @@ function Login(props) {
         password: data.password,
       })
       .then((res) => {
-        console.log('api response 🚀', res)
-        setSession('dummy_token')
-        userRole = res.data.role
-        props.history.push('/dashboard')
+        // console.log('api response 🚀', res)
+        const userRole = res.data.role
+        setSession('dummy_token', userRole)
+        history.push(`/${userRole}/dashboard`)
       })
       .catch((error) => {
         console.error(error.response)
@@ -117,4 +116,3 @@ function Login(props) {
 }
 
 export default Login
-export { userRole }
