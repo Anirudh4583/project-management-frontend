@@ -41,12 +41,12 @@ function FormField({ field, register, errors }) {
       <div className="form-group form-switch col-md-4 col-sm-5 mt-4 mx-4">
         <input
           type="checkbox"
-          {...register(`fields.${field}.isFieldMulti`)}
+          {...register(`fields.${field}.fieldType`)}
           className={'form-check-input'}
-          id={`isFieldMulti[${field}]`}
+          id={`fieldType[${field}]`}
         />
         <label
-          htmlFor={`isFieldMulti[${field}]`}
+          htmlFor={`fieldType[${field}]`}
           className="form-check-label mx-2"
         >
           Accept Multiple Values?

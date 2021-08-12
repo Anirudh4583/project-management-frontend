@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { formMakerSchema } from '../services/ValidationSchemas/ValidationSchema'
 import FormField from './FormField'
+import axios from 'axios'
 
 function FormMaker() {
   const [fields, setFields] = useState([1])
@@ -27,10 +28,19 @@ function FormMaker() {
 
   function onSubmit(data, e) {
     console.log(data, e)
-    alert('SUCCESS!\n\n' + JSON.stringify(data, null, 4))
-    db.collection('forms')
-      .doc('camp' + nanoid())
-      .set(data)
+    // alert('SUCCESS!')
+    console.log(JSON.stringify(data, null, 4))
+
+    axios
+      .post('http://localhost:3001/api/announcement/add', {
+        data,
+      })
+      .then((res) => {
+        console.log('api response 🚀', res)
+      })
+      .catch((error) => {
+        console.error(error.response)
+      })
   }
 
   function onError(data, e) {
@@ -49,25 +59,26 @@ function FormMaker() {
             reset({
               formName: '',
               deadline: '',
+              formData: '',
               numberOfFields: '',
             })
           }
           className="card-body"
         >
-          <ul className="list-grou list-group-flush">
+          <ul className="list-group list-group-flush">
             <li className="list-group-item">
               <div className="ms-2 me-auto">
                 <div className="fw-bold">Form Details</div>
                 <div className="form-row row mb-3">
                   <div className="form-group col-md-3 col-sm-4 has-validation">
-                    <label htmlFor="inputName">Form Name</label>
+                    <label htmlFor="formName">Form Name</label>
                     <input
                       type="text"
                       {...register('formName')}
                       className={`form-control ${
                         errors.formName ? 'is-invalid' : ''
                       }`}
-                      id="inputName"
+                      id="formName"
                       placeholder="Form 1"
                     />
                     <div className="invalid-feeback text-danger">
@@ -76,17 +87,34 @@ function FormMaker() {
                   </div>
 
                   <div className="form-group col-md-3 col-sm-4">
-                    <label htmlFor="inputDate">Deadline</label>
+                    <label htmlFor="deadline">Deadline</label>
                     <input
                       type="date"
                       {...register('deadline')}
                       className={`form-control ${
                         errors?.deadline ? 'is-invalid' : ''
                       }`}
-                      id="inputDate"
+                      id="deadline"
                     />
                     <div className="invalid-feeback text-danger">
                       {errors.deadline?.message}
+                    </div>
+                  </div>
+                </div>
+                <div className="form-row row mb-3">
+                  <div className="form-group col-md-6 col-sm-8 has-validation">
+                    <label htmlFor="formData">Form Details</label>
+                    <textarea
+                      rows="3"
+                      {...register('formData')}
+                      className={`form-control ${
+                        errors.formData ? 'is-invalid' : ''
+                      }`}
+                      id="formData"
+                      placeholder="Form instructions, details etc.."
+                    />
+                    <div className="invalid-feeback text-danger">
+                      {errors.formData?.message}
                     </div>
                   </div>
                 </div>

@@ -8,12 +8,13 @@ export const loginSchema = Yup.object().shape({
 export const formMakerSchema = Yup.object().shape({
   formName: Yup.string().required('Form Name is required'),
   deadline: Yup.date().required('Deadline is required'),
+  formData: Yup.string().required('Form Data is required'),
   numberOfFields: Yup.string().required('Number of tickets is required'),
   fields: Yup.array().of(
     Yup.object().shape({
       fieldName: Yup.string().required('Field Name is required'),
       // fieldType: Yup.string().required('Field Type is required'),
-      isFieldMulti: Yup.bool().default(false),
+      fieldType: Yup.bool().default(false),
     }),
   ),
 })
