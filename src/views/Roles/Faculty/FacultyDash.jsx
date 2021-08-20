@@ -1,15 +1,16 @@
 import React from 'react'
 import { useEffect } from 'react'
-import FormMaker from '../../../components/FormMaker'
+import { useHistory } from 'react-router-dom'
+import { AnnouncementPanel } from '../../../components/compIndex'
 import {
   getRole,
   removeSession,
 } from '../../../services/LocalStorageService/LocalStorageService'
-import { useHistory } from 'react-router-dom'
-function AdminDash() {
+
+function FacultyDash() {
   const history = useHistory()
   useEffect(() => {
-    let checkAuth = getRole() == 0
+    let checkAuth = getRole() == 1
     if (!checkAuth) {
       removeSession()
       history.push('/login')
@@ -17,11 +18,12 @@ function AdminDash() {
   }, [])
 
   return (
-    <div className="AdminDash__app">
-      <h1>Hi Admin</h1>
-      <FormMaker />
+    <div>
+      <h1>Hi Faculty</h1>
+      <h1> Announcement </h1>
+      <AnnouncementPanel />
     </div>
   )
 }
 
-export default AdminDash
+export default FacultyDash

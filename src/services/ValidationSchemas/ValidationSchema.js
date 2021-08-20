@@ -6,10 +6,12 @@ export const loginSchema = Yup.object().shape({
 })
 
 export const formMakerSchema = Yup.object().shape({
-  formName: Yup.string().required('Form Name is required'),
+  formName: Yup.string()
+    .required('Form Name is required')
+    .matches(/^[A-Za-z0-9]*$/, 'Form Name can only contain A-Z, a-z, 0-9'),
   deadline: Yup.date().required('Deadline is required'),
   formData: Yup.string().required('Form Data is required'),
-  numberOfFields: Yup.string().required('Number of tickets is required'),
+  numberOfFields: Yup.string().required('Number of Fields is required'),
   fields: Yup.array().of(
     Yup.object().shape({
       fieldName: Yup.string().required('Field Name is required'),

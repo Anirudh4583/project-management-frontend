@@ -1,29 +1,25 @@
 import React from 'react'
 import { useEffect } from 'react'
-
+import { useHistory } from 'react-router-dom'
 import {
   getRole,
   removeSession,
 } from '../../../services/LocalStorageService/LocalStorageService'
-import { useHistory } from 'react-router-dom'
-import Announcement from '../../../components/Announcement'
-function Faculty() {
+
+function StudentDash() {
   const history = useHistory()
   useEffect(() => {
-    let checkAuth = getRole() == 1
+    let checkAuth = getRole() == 2
     if (!checkAuth) {
       removeSession()
       history.push('/login')
     }
   }, [])
-
   return (
     <div>
-      <h1>Hi Faculty</h1>
-      <h1> Announcement </h1>
-      <Announcement />
+      <h1>Hi Student</h1>
     </div>
   )
 }
 
-export default Faculty
+export default StudentDash

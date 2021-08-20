@@ -1,13 +1,11 @@
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { formMakerSchema } from '../services/ValidationSchemas/ValidationSchema'
+import { formMakerSchema } from '../../services/ValidationSchemas/ValidationSchema'
 import FormField from './FormField'
 import axios from 'axios'
 
-function FormMaker() {
-  const [fields, setFields] = useState([1])
-
+function CreateForm() {
   const {
     register,
     handleSubmit,
@@ -183,4 +181,4 @@ function FormMaker() {
   )
 }
 
-export default FormMaker
+export default CreateForm

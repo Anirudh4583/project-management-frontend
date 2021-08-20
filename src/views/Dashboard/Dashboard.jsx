@@ -4,9 +4,7 @@ import {
   getRole,
   removeSession,
 } from '../../services/LocalStorageService/LocalStorageService'
-import AdminDash from './Admin/AdminDash'
-import FacultyDash from './Faculty/FacultyDash'
-import StudentDash from './Student/StudentDash'
+import { AdminDash, FacultyDash, StudentDash } from '../viewIndex'
 
 function Dashboard() {
   const history = useHistory()
@@ -37,6 +35,7 @@ function Dashboard() {
           </ul>
         </nav>
       </div>
+
       {userRole === 0 && <AdminDash />}
       {userRole === 1 && <FacultyDash />}
       {userRole === 2 && <StudentDash />}

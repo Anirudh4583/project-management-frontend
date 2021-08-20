@@ -1,7 +1,7 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 
-function Announcement() {
+function AnnouncementPanel() {
   const [announcements, setAnnouncements] = useState([])
   useEffect(() => {
     axios
@@ -37,4 +37,4 @@ function Announcement() {
   )
 }
 
-export default Announcement
+export default AnnouncementPanel
