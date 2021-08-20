@@ -15,8 +15,59 @@ export const formMakerSchema = Yup.object().shape({
   fields: Yup.array().of(
     Yup.object().shape({
       fieldName: Yup.string().required('Field Name is required'),
-      // fieldType: Yup.string().required('Field Type is required'),
       fieldType: Yup.bool().default(false),
     }),
   ),
+})
+
+export const announcementSchema = Yup.object().shape({
+  annName: Yup.string()
+    .required('Announcement Name is required')
+    .matches(
+      /^[A-Za-z0-9]*$/,
+      'Announcement Name can only contain A-Z, a-z, 0-9',
+    ),
+  annData: Yup.string().required('Announcement Data is required'),
+  annTarget: Yup.number().required('Target is required'),
+  // .required('Number of Fields is required')
+  isForm: Yup.bool().default(false),
+
+  // form data
+  formName: Yup.string().when('isForm', {
+    is: true,
+    then: Yup.string()
+      .required('Form Name is required')
+      .matches(/^[A-Za-z0-9]*$/, 'Form Name can only contain A-Z, a-z, 0-9'),
+    otherwise: Yup.string().nullable(),
+  }),
+
+  deadline: Yup.date().when('isForm', {
+    is: true,
+    then: Yup.date().required('Deadline is required'),
+    otherwise: Yup.date().nullable(),
+  }),
+
+  formData: Yup.string().when('isForm', {
+    is: true,
+    then: Yup.string().required('Form Data is required'),
+    otherwise: Yup.string().nullable(),
+  }),
+
+  numberOfFields: Yup.string().when('isForm', {
+    is: true,
+    then: Yup.string().required('Number of Fields is required'),
+    otherwise: Yup.string().nullable(),
+  }),
+
+  // array baad me dekhta hu
+  fields: Yup.array().when('isForm', {
+    is: true,
+    then: Yup.array().of(
+      Yup.object().shape({
+        fieldName: Yup.string().required('Field Name is required'),
+        fieldType: Yup.bool().default(false),
+      }),
+    ),
+    otherwise: Yup.array().nullable(),
+  }),
 })
