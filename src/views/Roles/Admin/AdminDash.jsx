@@ -29,7 +29,7 @@ function AdminDash() {
       {/* <h1>announcement panel</h1>
       <AnnouncementPanel /> */}
 
-      <h1>announcement create</h1>
+      <h1>Create announcement</h1>
       <CreateAnnouncement />
     </div>
   )
