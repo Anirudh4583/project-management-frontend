@@ -26,8 +26,8 @@ function AdminDash() {
       {/* <h2>create form</h2>
       <CreateForm /> */}
 
-      {/* <h1>announcement panel</h1>
-      <AnnouncementPanel /> */}
+      <h1>announcement panel</h1>
+      <AnnouncementPanel />
 
       <h1>Create announcement</h1>
       <CreateAnnouncement />
