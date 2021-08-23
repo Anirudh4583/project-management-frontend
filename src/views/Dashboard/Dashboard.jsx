@@ -1,5 +1,5 @@
 import React from 'react'
-import { useHistory, useParams } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import {
   getRole,
   removeSession,
@@ -8,7 +8,6 @@ import { AdminDash, FacultyDash, StudentDash } from '../viewIndex'
 
 function Dashboard() {
   const history = useHistory()
-  const params = useParams()
   const userRole = Number(getRole())
 
   // console.log(params)

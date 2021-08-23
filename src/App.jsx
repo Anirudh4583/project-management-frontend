@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import { Home, Login, Dashboard } from './views/viewIndex'
 import PublicRoute from './utils/Routers/PublicRoute'
 import PrivateRoute from './utils/Routers/PrivateRoute'
+import { FillForm } from './components/compIndex'
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
             <PublicRoute exact path="/" component={Home} />
             <PublicRoute path="/login" component={Login} />
             <PrivateRoute path="/:role/dashboard" component={Dashboard} />
+            <PrivateRoute path="/form/:formId" component={FillForm} />
           </Switch>
         </div>
       </Router>

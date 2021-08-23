@@ -76,7 +76,7 @@ function CreateAnnouncement() {
                           errors.annName ? 'is-invalid' : ''
                         }`}
                         id="annName"
-                        placeholder="Form 1"
+                        placeholder="Announcement1"
                       />
                       <div className="invalid-feeback text-danger">
                         {errors.annName?.message}
@@ -112,10 +112,11 @@ function CreateAnnouncement() {
                         {...register('annTarget')}
                         className="form-control"
                         id="annTarget"
+                        defaultValue={''}
                       >
-                        <option value={null} selected disabled hidden>
+                        {/* <option value={null} selected disabled hidden>
                           select target
-                        </option>
+                        </option> */}
                         <option value={2}>student</option>
                         <option value={1}>faculty</option>
                       </select>
