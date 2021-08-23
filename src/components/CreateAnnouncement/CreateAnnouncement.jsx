@@ -44,6 +44,22 @@ function CreateAnnouncement() {
       .catch((error) => {
         console.error(error.response)
       })
+
+    {
+      isSendMail &&
+        axios
+          .post('http://localhost:3001/api/mail', {
+            // data,
+            mailSubject: 'New Announcement Alert',
+            mailBody: JSON.stringify(data, null, 4),
+          })
+          .then((res) => {
+            console.log('mail api response 📧', res)
+          })
+          .catch((error) => {
+            console.error(error.response)
+          })
+    }
   }
 
   function onError(data, e) {

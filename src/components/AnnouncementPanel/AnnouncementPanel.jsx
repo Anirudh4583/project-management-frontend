@@ -18,26 +18,28 @@ function AnnouncementPanel() {
   console.log(announcements)
 
   return (
-    <div className="row ">
-      {announcements.map((a) => (
-        <div
-          key={a.announcement_id}
-          className="card mx-2"
-          style={{ width: '18rem' }}
-        >
-          <div className="card-body">
-            <h5 className="card-title">{a.announcement_name}</h5>
-            <h6 className="card-subtitle mb-2 text-muted">{a.deadline}</h6>
-            <p className="card-text">{a.announcement_data}</p>
-
-            {a.form_id && (
-              <Link to={`/form/${a.form_id}`} className="card-link">
-                Fill up form
-              </Link>
-            )}
-          </div>
-        </div>
-      ))}
+    <div className="container text-center">
+      <div className="card mx-2" style={{ width: '800px' }}>
+        <div className="card-header">Announcements</div>
+        {/* <div className="card-body"> */}
+        <ul class="list-group list-group-flush">
+          {announcements.map((a) => (
+            <li class="list-group-item">
+              <h5 className="card-title">{a.announcement_name}</h5>
+              <h6 className="card-subtitle mb-2 text-muted">{a.deadline}</h6>
+              <p className="card-text d-flex justify-content-between">
+                {a.announcement_data}
+                {a.form_id && (
+                  <Link to={`/form/${a.form_id}`} className="card-link">
+                    Fill up form
+                  </Link>
+                )}
+              </p>
+            </li>
+          ))}
+        </ul>
+        {/* </div> */}
+      </div>
     </div>
   )
 }
