@@ -22,14 +22,15 @@ function Login() {
     // alert('SUCCESS!🚀')
 
     axios
-      .post('http://localhost:3001/api/auth/login', {
+      .post('http://localhost:3001/login', {
         email: data.email,
         password: data.password,
       })
       .then((res) => {
-        // console.log('api response 🚀', res)
-        const userRole = res.data.role
-        setSession('dummy_token', userRole)
+        console.log('login api response 🚀', res)
+        const userRole = res.data.role[0]
+        const token = res.data.accessToken
+        setSession(token, userRole)
         history.push(`/${userRole}/dashboard`)
       })
       .catch((error) => {

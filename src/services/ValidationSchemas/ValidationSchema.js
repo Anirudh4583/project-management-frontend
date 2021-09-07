@@ -71,3 +71,12 @@ export const announcementSchema = Yup.object().shape({
     otherwise: Yup.array().nullable(),
   }),
 })
+
+export const fillFormSchema = Yup.object().shape({
+  fields: Yup.array().of(
+    Yup.object().shape({
+      // fieldName: Yup.string().required('Field name is required'),
+      fieldData: Yup.string().required('Field value is required'),
+    }),
+  ),
+})

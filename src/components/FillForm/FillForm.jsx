@@ -3,7 +3,7 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useParams } from 'react-router-dom'
-import { announcementSchema } from '../../services/ValidationSchemas/ValidationSchema'
+import { fillFormSchema } from '../../services/ValidationSchemas/ValidationSchema'
 
 function FillForm() {
   const {
@@ -13,13 +13,13 @@ function FillForm() {
     watch,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(announcementSchema),
+    resolver: yupResolver(fillFormSchema),
   })
 
   const [forms, setForms] = useState({})
   const [formFields, setFormFields] = useState([])
   // console.log(forms.form_data)
-  console.log(formFields)
+  // console.log(formFields)
 
   const { formId } = useParams()
 
@@ -44,7 +44,7 @@ function FillForm() {
 
   useEffect(() => {
     axios
-      .post('http://localhost:3001/api/form', {
+      .post('http://localhost:3001/api/viewForm', {
         formId,
       })
       .then((res) => {
@@ -79,22 +79,23 @@ function FillForm() {
                 </div>
               </li>
 
-              {formFields.map((field) => {
+              {formFields.map((field, id) => {
+                // console.log(id)
                 field = JSON.parse(field)
                 return (
-                  <li className="list-group-item">
+                  <li key={field.fieldName} className="list-group-item">
                     <div className="ms-2 me-auto">
                       <div className="form-row row">
-                        <div className="form-group col-md-2 col-sm-4">
+                        <div className="form-group col-md-2 col-sm-4 has-validation">
                           <label htmlFor="annTarget">{field.fieldName}</label>
                           <input
-                            {...register('annTarget')}
+                            {...register(`fields.${id}.fieldValue`)}
                             className="form-control"
                             id="annTarget"
                           />
 
                           <div className="invalid-feeback text-danger">
-                            {errors.annTarget?.message}
+                            {errors.fields?.[id]?.fieldValue?.message}
                           </div>
                         </div>
                       </div>

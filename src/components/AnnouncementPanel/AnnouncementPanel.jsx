@@ -1,12 +1,17 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { getRole } from '../../services/LocalStorageService/LocalStorageService'
+
+const role = getRole()
 
 function AnnouncementPanel() {
   const [announcements, setAnnouncements] = useState([])
   useEffect(() => {
     axios
-      .get('http://localhost:3001/api/announcement/')
+      .post('http://localhost:3001/api/announcement/', {
+        role: role,
+      })
       .then((res) => {
         console.log('get anns 🚀', res)
         setAnnouncements(res.data)
@@ -15,16 +20,16 @@ function AnnouncementPanel() {
         console.error(error.response)
       })
   }, [])
-  console.log(announcements)
+  // console.log(announcements)
 
   return (
     <div className="container text-center">
       <div className="card mx-2" style={{ width: '800px' }}>
         <div className="card-header">Announcements</div>
         {/* <div className="card-body"> */}
-        <ul class="list-group list-group-flush">
+        <ul className="list-group list-group-flush">
           {announcements.map((a) => (
-            <li class="list-group-item">
+            <li key={a.announcement_name} className="list-group-item">
               <h5 className="card-title">{a.announcement_name}</h5>
               <h6 className="card-subtitle mb-2 text-muted">{a.deadline}</h6>
               <p className="card-text d-flex justify-content-between">

@@ -17,8 +17,6 @@ function CreateAnnouncement() {
   })
   const [isSendMail, setIsSendMail] = useState(false)
 
-  console.log(isSendMail)
-
   const watchFields = watch('numberOfFields')
   //   console.log(watchFields)
 

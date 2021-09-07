@@ -5,6 +5,7 @@ import {
   getRole,
   removeSession,
 } from '../../../services/LocalStorageService/LocalStorageService'
+import { AnnouncementPanel } from '../../../components/compIndex'
 
 function StudentDash() {
   const history = useHistory()
@@ -18,6 +19,7 @@ function StudentDash() {
   return (
     <div>
       <h1>Hi Student</h1>
+      <AnnouncementPanel />
     </div>
   )
 }
