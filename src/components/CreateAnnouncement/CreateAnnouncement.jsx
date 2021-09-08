@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FormField } from '../compIndex'
@@ -16,12 +16,25 @@ function CreateAnnouncement() {
     resolver: yupResolver(announcementSchema),
   })
   const [isSendMail, setIsSendMail] = useState(false)
-
   const watchFields = watch('numberOfFields')
   //   console.log(watchFields)
-
+  
   const watchIsForm = watch('isForm')
-
+  const [announcements, setAnnouncements] = useState([])
+  useEffect(() => {
+    axios
+      .post('http://localhost:3001/api/announcement/', {
+        role: 0,
+      })
+      .then((res) => {
+        console.log('get anns 🚀', res)
+        setAnnouncements(res.data)
+      })
+      .catch((error) => {
+        console.error(error.response)
+      })
+  }, []);
+  console.log('hello',announcements);
   function fieldNumbers() {
     return [...Array(parseInt(watchFields || 0)).keys()]
   }
@@ -156,7 +169,21 @@ function CreateAnnouncement() {
                   </div>
                 </div>
               </li>
-
+                       
+              <li className="list-group-item">
+                <label>Attach to a thread :   </label>
+                <br/>
+                <select>
+                  <option value="" selected disabled hidden>  Choose here</option>
+                  {announcements.map((value)=>{
+                    return (
+                      <option value="user">{value.announcement_name}</option>
+                    )
+                    
+                  })}
+                  
+                </select>
+              </li>
               <li className="list-group-item">
                 <div className="form-group form-switch ms-2 me-auto my-2 p-0">
                   <label htmlFor="isForm" className="form-check-label">
