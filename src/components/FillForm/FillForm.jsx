@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form'
 import { useParams } from 'react-router-dom'
 import { getToken } from '../../services/LocalStorageService/LocalStorageService'
 import { fillFormSchema } from '../../services/ValidationSchemas/ValidationSchema'
+import MultiValField from './MultiValField'
 
 function FillForm() {
   const {
@@ -12,6 +13,7 @@ function FillForm() {
     handleSubmit,
     reset,
     setValue,
+    watch,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(fillFormSchema),
@@ -29,25 +31,25 @@ function FillForm() {
   function onSubmit(data, e) {
     console.log(data, e)
 
-    axios
-      .post(
-        'http://localhost:3001/api/submitForm/1',
-        {
-          data,
-          formId,
-        },
-        {
-          headers: {
-            accesstoken: getToken(),
-          },
-        },
-      )
-      .then((res) => {
-        console.log('api response 🚀', res)
-      })
-      .catch((error) => {
-        console.error(error.response)
-      })
+    // axios
+    //   .post(
+    //     'http://localhost:3001/api/submitForm/1',
+    //     {
+    //       data,
+    //       formId,
+    //     },
+    //     {
+    //       headers: {
+    //         accesstoken: getToken(),
+    //       },
+    //     },
+    //   )
+    //   .then((res) => {
+    //     console.log('api response 🚀', res)
+    //   })
+    //   .catch((error) => {
+    //     console.error(error.response)
+    //   })
   }
 
   function onError(data, e) {
@@ -101,31 +103,42 @@ function FillForm() {
                     return (
                       <li key={field.fieldName} className="list-group-item">
                         <div className="ms-2 me-auto">
-                          <div className="form-row row">
-                            <div className="form-group col-md-2 col-sm-4 has-validation">
-                              <label htmlFor="fieldData">
-                                {field.fieldName}
-                              </label>
-                              <input
-                                {...register(`fields.${id}.fieldData`)}
-                                className="form-control"
-                                id="fieldData"
-                                onFocus={() =>
-                                  setValue(
-                                    `fields.${id}.fieldName`,
-                                    field.fieldName,
-                                    {
-                                      shouldValidate: true,
-                                    },
-                                  )
-                                }
-                              />
+                          {field.fieldType ? (
+                            <MultiValField
+                              field={field}
+                              id={id}
+                              register={register}
+                              setValue={setValue}
+                              errors={errors}
+                              watch={watch}
+                            />
+                          ) : (
+                            <div className="form-row row">
+                              <div className="form-group col-md-2 col-sm-4 has-validation">
+                                <label htmlFor="fieldData">
+                                  {field.fieldName}
+                                </label>
+                                <input
+                                  {...register(`fields.${id}.fieldData`)}
+                                  className="form-control"
+                                  id="fieldData"
+                                  onFocus={() =>
+                                    setValue(
+                                      `fields.${id}.fieldName`,
+                                      field.fieldName,
+                                      {
+                                        shouldValidate: false,
+                                      },
+                                    )
+                                  }
+                                />
 
-                              <div className="invalid-feeback text-danger">
-                                {errors.fields?.[id]?.fieldData?.message}
+                                <div className="invalid-feeback text-danger">
+                                  {errors.fields?.[id]?.fieldData?.message}
+                                </div>
                               </div>
                             </div>
-                          </div>
+                          )}
                         </div>
                       </li>
                     )

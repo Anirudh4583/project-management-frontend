@@ -75,8 +75,18 @@ export const announcementSchema = Yup.object().shape({
 export const fillFormSchema = Yup.object().shape({
   fields: Yup.array().of(
     Yup.object().shape({
+      fieldType: Yup.bool().default(false),
       fieldName: Yup.string().required('Field name is required'),
-      fieldData: Yup.string().required('Field value is required'),
+      fieldData: Yup.string().when('fieldType', {
+        is: true,
+        then: Yup.array().of(
+          Yup.object().shape({
+            value: Yup.string().required('Field value is required'),
+          }),
+        ),
+
+        otherwise: Yup.string().required('Field value is required'),
+      }),
     }),
   ),
 })
