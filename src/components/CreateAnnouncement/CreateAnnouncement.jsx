@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FormField } from '../compIndex'
@@ -16,32 +16,35 @@ function CreateAnnouncement() {
     resolver: yupResolver(announcementSchema),
   })
   const [isSendMail, setIsSendMail] = useState(false)
-  const watchFields = watch('numberOfFields')
   //   console.log(watchFields)
-  
+
+  const watchFields = watch('numberOfFields')
   const watchIsForm = watch('isForm')
-  const [announcements, setAnnouncements] = useState([])
+  const watchIsNewThread = watch('isNewThread')
+
+  const [threads, setThreads] = useState([])
+
   useEffect(() => {
     axios
-      .post('http://localhost:3001/api/announcement/', {
-        role: 0,
-      })
+      .get('http://localhost:3001/api/thread/')
       .then((res) => {
-        console.log('get anns 🚀', res)
-        setAnnouncements(res.data)
+        console.log('get threads 🚀', res)
+        setThreads(res.data.data)
       })
       .catch((error) => {
         console.error(error.response)
       })
-  }, []);
-  console.log('hello',announcements);
+  }, [])
+
+  // console.log('hello', announcements)
+
   function fieldNumbers() {
     return [...Array(parseInt(watchFields || 0)).keys()]
   }
   //   console.log(fieldNumbers())
 
   function onSubmit(data, e) {
-    console.log(data, e)
+    console.log('submit data', data, e)
     // alert('SUCCESS!')
     console.log(JSON.stringify(data, null, 4))
 
@@ -91,6 +94,64 @@ function CreateAnnouncement() {
           >
             <ul className="list-group list-group-flush">
               <li className="list-group-item">
+                <div className="form-group form-switch ms-2 me-auto my-2 p-0">
+                  <label htmlFor="isNewThread" className="form-check-label">
+                    New Thread?
+                  </label>
+                  <input
+                    type="checkbox"
+                    {...register(`isNewThread`)}
+                    className="form-check-input mx-3"
+                    id="isNewThread"
+                  />
+                </div>
+
+                {watchIsNewThread ? (
+                  <div className="form-group col-md-3 col-sm-4 has-validation">
+                    <label htmlFor="threadName">Thread Name</label>
+                    <input
+                      type="text"
+                      {...register('threadData.threadName')}
+                      className={`form-control ${
+                        errors.threadData?.threadName ? 'is-invalid' : ''
+                      }`}
+                      id="threadName"
+                      placeholder="Thread1"
+                    />
+                    <div className="invalid-feeback text-danger">
+                      {errors.threadData?.threadName?.message}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="form-group col-md-2 col-sm-4">
+                    <label htmlFor="linkThreadID">Link To thread</label>
+                    <select
+                      {...register('threadData.linkThreadID')}
+                      className={`form-control ${
+                        errors.threadData?.linkThreadID ? 'is-invalid' : ''
+                      }`}
+                      id="linkThreadID"
+                      defaultValue={''}
+                    >
+                      {/* <option value={null} selected disabled hidden>
+                        select target
+                      </option> */}
+                      {threads.map((value) => {
+                        return (
+                          <option value={value.thread_id}>
+                            {value.thread_name}
+                          </option>
+                        )
+                      })}
+                    </select>
+
+                    <div className="invalid-feeback text-danger">
+                      {errors.threadData?.linkThreadID?.message}
+                    </div>
+                  </div>
+                )}
+              </li>
+              <li className="list-group-item">
                 <div className="ms-2 me-auto">
                   <div className="fw-bold">Announcement Details</div>
                   <div className="form-row row mb-3">
@@ -129,7 +190,6 @@ function CreateAnnouncement() {
                   </div>
                 </div>
               </li>
-
               <li className="list-group-item">
                 <div className="ms-2 me-auto">
                   <div className="form-row row">
@@ -169,21 +229,7 @@ function CreateAnnouncement() {
                   </div>
                 </div>
               </li>
-                       
-              <li className="list-group-item">
-                <label>Attach to a thread :   </label>
-                <br/>
-                <select>
-                  <option value="" selected disabled hidden>  Choose here</option>
-                  {announcements.map((value)=>{
-                    return (
-                      <option value="user">{value.announcement_name}</option>
-                    )
-                    
-                  })}
-                  
-                </select>
-              </li>
+
               <li className="list-group-item">
                 <div className="form-group form-switch ms-2 me-auto my-2 p-0">
                   <label htmlFor="isForm" className="form-check-label">

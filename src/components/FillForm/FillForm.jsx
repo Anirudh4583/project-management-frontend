@@ -13,7 +13,7 @@ function FillForm() {
     handleSubmit,
     reset,
     setValue,
-    watch,
+    getValues,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(fillFormSchema),
@@ -31,25 +31,25 @@ function FillForm() {
   function onSubmit(data, e) {
     console.log(data, e)
 
-    // axios
-    //   .post(
-    //     'http://localhost:3001/api/submitForm/1',
-    //     {
-    //       data,
-    //       formId,
-    //     },
-    //     {
-    //       headers: {
-    //         accesstoken: getToken(),
-    //       },
-    //     },
-    //   )
-    //   .then((res) => {
-    //     console.log('api response 🚀', res)
-    //   })
-    //   .catch((error) => {
-    //     console.error(error.response)
-    //   })
+    axios
+      .post(
+        'http://localhost:3001/api/submitForm/1',
+        {
+          data,
+          formId,
+        },
+        {
+          headers: {
+            accesstoken: getToken(),
+          },
+        },
+      )
+      .then((res) => {
+        console.log('api response 🚀', res)
+      })
+      .catch((error) => {
+        console.error(error.response)
+      })
   }
 
   function onError(data, e) {
@@ -62,7 +62,7 @@ function FillForm() {
         formId,
       })
       .then((res) => {
-        console.log('get forms 🚀', res)
+        // console.log('get forms 🚀', res)
         setForms(res.data)
         setFormFields(res.data[0].form_fields)
         setformDeadline(new Date(res.data[0].form_deadline))
@@ -110,7 +110,7 @@ function FillForm() {
                               register={register}
                               setValue={setValue}
                               errors={errors}
-                              watch={watch}
+                              getValues={getValues}
                             />
                           ) : (
                             <div className="form-row row">
@@ -119,7 +119,7 @@ function FillForm() {
                                   {field.fieldName}
                                 </label>
                                 <input
-                                  {...register(`fields.${id}.fieldData`)}
+                                  {...register(`fields.${id}.fieldData[0]`)}
                                   className="form-control"
                                   id="fieldData"
                                   onFocus={() =>
@@ -127,14 +127,14 @@ function FillForm() {
                                       `fields.${id}.fieldName`,
                                       field.fieldName,
                                       {
-                                        shouldValidate: false,
+                                        shouldValidate: true,
                                       },
                                     )
                                   }
                                 />
 
                                 <div className="invalid-feeback text-danger">
-                                  {errors.fields?.[id]?.fieldData?.message}
+                                  {errors.fields?.[id]?.fieldData[0]?.message}
                                 </div>
                               </div>
                             </div>
