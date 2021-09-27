@@ -1,3 +1,0 @@
-1. create open form component TODO/after chagu beta creates api
-2. create routing for filing forms ✔
-3. make the announcement form link working ✔

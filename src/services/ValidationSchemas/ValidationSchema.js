@@ -42,7 +42,18 @@ export const announcementSchema = Yup.object().shape({
       'Announcement Name can only contain A-Z, a-z, 0-9',
     ),
   annData: Yup.string().required('Announcement Data is required'),
-  annTarget: Yup.number().required('Target is required'),
+
+  annTarget: Yup.object()
+    .shape({
+      isFaculty: Yup.boolean().default(false),
+      isStudent: Yup.boolean().default(false),
+      batch: Yup.array().when('isStudent', {
+        is: true,
+        then: Yup.array().of(Yup.number()).required('Select atleast one batch'),
+        otherwise: Yup.array().nullable(),
+      }),
+    })
+    .required('Target is required'),
   // .required('Number of Fields is required')
   isForm: Yup.bool().default(false),
 

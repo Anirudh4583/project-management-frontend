@@ -195,18 +195,60 @@ function CreateAnnouncement() {
                   <div className="form-row row">
                     <div className="form-group col-md-2 col-sm-4">
                       <label htmlFor="annTarget">Target</label>
-                      <select
+                      {/* <select
                         {...register('annTarget')}
                         className="form-control"
                         id="annTarget"
                         defaultValue={''}
                       >
-                        {/* <option value={null} selected disabled hidden>
-                          select target
-                        </option> */}
+                       
                         <option value={2}>student</option>
                         <option value={1}>faculty</option>
-                      </select>
+                      </select> */}
+
+                      <div
+                        class="btn-toolbar"
+                        role="toolbar"
+                        aria-label="Toolbar with button groups"
+                      >
+                        <div
+                          class="btn-group me-2"
+                          role="group"
+                          aria-label="faculty group"
+                        >
+                          <input
+                            type="checkbox"
+                            class="btn-check"
+                            id="btncheck1"
+                            autocomplete="off"
+                          />
+                          <label
+                            class="btn btn-outline-primary"
+                            for="btncheck1"
+                          >
+                            Faculty
+                          </label>
+                        </div>
+
+                        <div
+                          class="btn-group"
+                          role="group"
+                          aria-label="student group"
+                        >
+                          <button type="button" class="btn btn-primary">
+                            1
+                          </button>
+                          <button type="button" class="btn btn-primary">
+                            2
+                          </button>
+                          <button type="button" class="btn btn-primary">
+                            3
+                          </button>
+                          <button type="button" class="btn btn-primary">
+                            4
+                          </button>
+                        </div>
+                      </div>
 
                       <div className="invalid-feeback text-danger">
                         {errors.annTarget?.message}
