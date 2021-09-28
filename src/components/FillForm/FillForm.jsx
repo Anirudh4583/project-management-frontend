@@ -57,19 +57,28 @@ function FillForm() {
   }
 
   useEffect(() => {
+    
     axios
-      .post('http://localhost:3001/api/viewForm', {
-        formId,
-      })
+      .post('http://localhost:3001/api/viewForm/', 
+        {formId: formId},
+        {
+          headers: {
+            accesstoken: getToken(),
+          }
+        },
+      )
       .then((res) => {
-        // console.log('get forms 🚀', res)
+        console.log('get forms 🚀', res)
         setForms(res.data)
         setFormFields(res.data[0].form_fields)
+        console.log(new Date(res.data[0].form_deadline))
         setformDeadline(new Date(res.data[0].form_deadline))
       })
       .catch((error) => {
         console.error(error.response)
       })
+      console.log(currentDate)
+    console.log(formDeadline)
   }, [])
 
   return (

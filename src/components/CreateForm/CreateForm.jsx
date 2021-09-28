@@ -4,6 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { formMakerSchema } from '../../services/ValidationSchemas/ValidationSchema'
 import FormField from './FormField'
 import axios from 'axios'
+import { getToken } from '../../services/LocalStorageService/LocalStorageService'
 
 function CreateForm() {
   const {
@@ -30,9 +31,14 @@ function CreateForm() {
     console.log(JSON.stringify(data, null, 4))
 
     axios
-      .post('http://localhost:3001/api/announcement/add', {
-        data,
-      })
+      .post('http://localhost:3001/api/announcement/add', 
+        data,{
+          headers:
+          {
+            accesstoken: getToken(),
+          }
+          },
+      )
       .then((res) => {
         console.log('api response 🚀', res)
       })

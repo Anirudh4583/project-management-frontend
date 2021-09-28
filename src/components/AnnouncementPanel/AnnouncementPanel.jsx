@@ -1,6 +1,7 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { getToken } from '../../services/LocalStorageService/LocalStorageService'
 import { getRole } from '../../services/LocalStorageService/LocalStorageService'
 
 const role = getRole()
@@ -9,11 +10,17 @@ function AnnouncementPanel() {
   const [announcements, setAnnouncements] = useState([])
   useEffect(() => {
     axios
-      .post('http://localhost:3001/api/announcement/', {
-        role: role,
-      })
+      .post('http://localhost:3001/api/announcement/', 
+        {role: role},
+        {
+          headers: {
+            accesstoken: getToken(),
+          }
+        },
+      )
       .then((res) => {
         console.log('get anns 🚀', res)
+        
         setAnnouncements(res.data)
       })
       .catch((error) => {
