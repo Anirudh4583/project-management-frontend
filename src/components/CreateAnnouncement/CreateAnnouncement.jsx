@@ -4,6 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { FormField } from '../compIndex'
 import axios from 'axios'
 import { announcementSchema } from '../../services/ValidationSchemas/ValidationSchema'
+import { getToken } from '../../services/LocalStorageService/LocalStorageService'
 
 function CreateAnnouncement() {
   const {
@@ -49,9 +50,15 @@ function CreateAnnouncement() {
     console.log(JSON.stringify(data, null, 4))
 
     axios
-      .post('http://localhost:3001/api/announcement/add', {
+      .post('http://localhost:3001/api/announcement/add',
         data,
-      })
+        {
+          headers:
+          {
+            accesstoken: getToken(),
+          }
+          },
+      )
       .then((res) => {
         console.log('api response 🚀', res)
       })
