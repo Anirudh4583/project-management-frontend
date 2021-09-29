@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
+import axios from 'axios'
 import { NavLink, useHistory } from 'react-router-dom'
-import { FaKey, FaUser } from 'react-icons/fa'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import axios from 'axios'
+import { FaKey, FaUser } from 'react-icons/fa'
+import { Snackbar, Alert } from '@mui/material'
 import { setSession } from '../../services/LocalStorageService/LocalStorageService'
 import { loginSchema } from '../../services/ValidationSchemas/ValidationSchema'
 
@@ -11,11 +12,22 @@ function Login() {
   const {
     register,
     handleSubmit,
-    formState: { isValid, errors },
+    formState: { errors },
   } = useForm({
     resolver: yupResolver(loginSchema),
   })
+
+  const [isError, setIsError] = useState(false)
+  const [errorMessage, seterrorMessage] = useState('')
   const history = useHistory()
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return
+    }
+
+    setIsError(false)
+  }
 
   function onSubmit(data, e) {
     // console.log(data)
@@ -34,6 +46,8 @@ function Login() {
         history.push(`/${userRole}/dashboard`)
       })
       .catch((error) => {
+        setIsError(true)
+        seterrorMessage(error.response?.data?.message)
         console.error(error.response)
       })
   }
@@ -112,6 +126,16 @@ function Login() {
           </div>
         </div>
       </form>
+      <Snackbar
+        open={isError}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+      >
+        <Alert onClose={handleClose} severity="error">
+          {errorMessage}
+        </Alert>
+      </Snackbar>
     </div>
   )
 }
