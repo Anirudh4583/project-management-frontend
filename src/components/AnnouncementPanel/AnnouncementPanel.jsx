@@ -10,6 +10,7 @@ const role = getRole()
 function AnnouncementPanel() {
   const [announcements, setAnnouncements] = useState([])
   const [isDataFetched, setDataFetched] = useState(false)
+  const [error, setError] = useState('')
   useEffect(() => {
     axios
       .post(
@@ -27,7 +28,9 @@ function AnnouncementPanel() {
         setAnnouncements(res.data)
       })
       .catch((error) => {
-        console.error(error.response)
+        console.error(error.response?.data?.message)
+        setError(error.response?.data?.message)
+        setDataFetched(true)
       })
   }, [])
   // console.log(announcements)
@@ -61,6 +64,8 @@ function AnnouncementPanel() {
             </Grid>
           </Grid>
         ) : (
+          (error.lenght>0) ? (<h4>{error}</h4>)
+          :
           announcements.map((a) => (
             <li key={a.announcement_name} className="list-group-item">
               <h5 className="card-title">{a.announcement_name}</h5>
