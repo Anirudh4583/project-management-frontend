@@ -1,6 +1,7 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { CircularProgress, Grid} from '@mui/material';
 import { getToken } from '../../services/LocalStorageService/LocalStorageService'
 import { getRole } from '../../services/LocalStorageService/LocalStorageService'
 
@@ -8,6 +9,7 @@ const role = getRole()
 
 function AnnouncementPanel() {
   const [announcements, setAnnouncements] = useState([])
+  const [isDataFetched, setDataFetched] = useState(false)
   useEffect(() => {
     axios
       .post('http://localhost:3001/api/announcement/', 
@@ -20,7 +22,7 @@ function AnnouncementPanel() {
       )
       .then((res) => {
         console.log('get anns 🚀', res)
-        
+        setDataFetched(true)
         setAnnouncements(res.data)
       })
       .catch((error) => {
@@ -30,12 +32,32 @@ function AnnouncementPanel() {
   // console.log(announcements)
 
   return (
-    <div className="container text-center">
-      <div className="card mx-2" style={{ width: '800px' }}>
-        <div className="card-header">Announcements</div>
+    <div className="mx-auto mt-5 container text-center">
+      
+      <h1>Announcement panel</h1>
+      <div className="mx-auto mt-3 card mx-2" style={{ width: '800px', justifyContent:'center' }}>
+        <div className="mx-auto card-header" style={{justifyContent: 'center', alignContent:'center'}}>Announcements</div>
         {/* <div className="card-body"> */}
-        <ul className="list-group list-group-flush">
-          {announcements.map((a) => (
+        <ul className="list-group list-group-flush"></ul>
+        {!isDataFetched ? (
+                        <Grid
+                container
+                spacing={0}
+                direction="column"
+                alignItems="center"
+                justify="center"
+                style={{ minHeight: '15vh' }}
+              >
+
+                <Grid item xs={3}>
+                <CircularProgress />
+                </Grid>   
+
+              </Grid> 
+          
+          ) :
+          (
+            announcements.map((a) => (
             <li key={a.announcement_name} className="list-group-item">
               <h5 className="card-title">{a.announcement_name}</h5>
               <h6 className="card-subtitle mb-2 text-muted">{a.deadline}</h6>
@@ -48,11 +70,13 @@ function AnnouncementPanel() {
                 )}
               </p>
             </li>
-          ))}
-        </ul>
-        {/* </div> */}
+          ))
+          )}
+         
+       
+        </div>
       </div>
-    </div>
+    
   )
 }
 
