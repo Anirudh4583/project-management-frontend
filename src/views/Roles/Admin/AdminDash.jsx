@@ -59,7 +59,7 @@ function AdminDash() {
       </AppBar>
     </Box>
    
-      
+      <h1>announcement panel</h1>
       <AnnouncementPanel />
 
       {click && 
