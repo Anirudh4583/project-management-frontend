@@ -44,10 +44,13 @@ function Login() {
   }
 
   return (
-    <div className="container d-flex justify-content-center align-items-center">
+    <div className="container d-flex justify-content-center align-items-center"
+      style={{display: 'flex',  justifyContent:'center', alignItems:'center', height: '80vh'}}
+    >
       <form
         className="login-form card mt-5"
         style={{ width: '25em' }}
+        
         onSubmit={handleSubmit(onSubmit, onError)}
       >
         <h2 className="card-header text-center">Log in</h2>
@@ -107,7 +110,7 @@ function Login() {
               to="/forgotPassword"
               className="float-right"
             >
-              Forgot Password
+              Forgot Password?
             </NavLink>
           </div>
         </div>
