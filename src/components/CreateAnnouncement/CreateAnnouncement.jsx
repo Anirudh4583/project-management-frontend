@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { useForm } from 'react-hook-form'
+import { get, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FormField } from '../compIndex'
 import axios from 'axios'
 import { announcementSchema } from '../../services/ValidationSchemas/ValidationSchema'
+import { getToken } from '../../services/LocalStorageService/LocalStorageService'
+import { Alert, Snackbar } from '@mui/material'
 
 function CreateAnnouncement() {
   const {
@@ -11,16 +13,23 @@ function CreateAnnouncement() {
     handleSubmit,
     reset,
     watch,
+    setValue,
+    unregister,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(announcementSchema),
   })
   const [isSendMail, setIsSendMail] = useState(false)
+  const [noOfBatch, setNoOfBatch] = useState(0)
+  const [isError, setIsError] = useState(false)
+  const [isSuccess, setIsSuccess] = useState(false)
+  const [message, setMessage] = useState('')
   //   console.log(watchFields)
 
   const watchFields = watch('numberOfFields')
   const watchIsForm = watch('isForm')
   const watchIsNewThread = watch('isNewThread')
+  const watchIsStudent = watch('annTarget.isStudent')
 
   const [threads, setThreads] = useState([])
 
@@ -49,36 +58,54 @@ function CreateAnnouncement() {
     console.log(JSON.stringify(data, null, 4))
 
     axios
-      .post('http://localhost:3001/api/announcement/add', {
-        data,
+      .post('http://localhost:3001/api/announcement/add', data, {
+        headers: {
+          accesstoken: getToken(),
+        },
       })
       .then((res) => {
         console.log('api response 🚀', res)
+        setIsSuccess(true)
+        setMessage(res.data.message)
       })
       .catch((error) => {
         console.error(error.response)
+        setIsError(true)
+        setMessage(error.response.data.err)
       })
 
-    {
-      isSendMail &&
-        axios
-          .post('http://localhost:3001/api/mail', {
-            // data,
-            mailSubject: 'New Announcement Alert',
-            mailBody: JSON.stringify(data, null, 4),
-          })
-          .then((res) => {
-            console.log('mail api response 📧', res)
-          })
-          .catch((error) => {
-            console.error(error.response)
-          })
+    if (isSendMail) {
+      axios
+        .post('http://localhost:3001/api/mail', {
+          // data,
+          mailSubject: 'New Announcement Alert',
+          mailBody: JSON.stringify(data, null, 4),
+        })
+        .then((res) => {
+          console.log('mail api response 📧', res)
+        })
+        .catch((error) => {
+          console.error(error.response)
+          setIsError(true)
+          setMessage(error.response.data.err)
+        })
     }
   }
 
   function onError(data, e) {
     console.log(data, e)
   }
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return
+    }
+
+    setIsError(false)
+    setIsSuccess(false)
+  }
+
+  // console.log(watchTarget)
 
   return (
     <div className="annCreate_app">
@@ -207,47 +234,160 @@ function CreateAnnouncement() {
                       </select> */}
 
                       <div
-                        class="btn-toolbar"
+                        className="btn-toolbar"
                         role="toolbar"
                         aria-label="Toolbar with button groups"
                       >
                         <div
-                          class="btn-group me-2"
+                          className="btn-group me-2"
                           role="group"
                           aria-label="faculty group"
                         >
                           <input
                             type="checkbox"
-                            class="btn-check"
-                            id="btncheck1"
+                            className="btn-check"
+                            id="isFaculty"
                             autocomplete="off"
+                            {...register('annTarget.isFaculty')}
                           />
                           <label
-                            class="btn btn-outline-primary"
-                            for="btncheck1"
+                            className="btn btn-outline-primary"
+                            for="isFaculty"
                           >
                             Faculty
                           </label>
                         </div>
 
                         <div
-                          class="btn-group"
+                          className="btn-group me-2"
                           role="group"
                           aria-label="student group"
                         >
-                          <button type="button" class="btn btn-primary">
-                            1
-                          </button>
-                          <button type="button" class="btn btn-primary">
-                            2
-                          </button>
-                          <button type="button" class="btn btn-primary">
-                            3
-                          </button>
-                          <button type="button" class="btn btn-primary">
-                            4
-                          </button>
+                          <input
+                            type="checkbox"
+                            className="btn-check"
+                            id="isStudent"
+                            autocomplete="off"
+                            {...register('annTarget.isStudent')}
+                          />
+                          <label
+                            className="btn btn-outline-primary"
+                            for="isStudent"
+                          >
+                            Student
+                          </label>
                         </div>
+                        {watchIsStudent && (
+                          <div
+                            className="btn-group"
+                            role="group"
+                            aria-label="student group"
+                          >
+                            <input
+                              type="checkbox"
+                              className="btn-check"
+                              id="batch1"
+                              autocomplete="off"
+                              onChange={(e) => {
+                                if (e.target.checked === true) {
+                                  setValue(
+                                    `annTarget.batch[${noOfBatch}]`,
+                                    '2017',
+                                  )
+                                  setNoOfBatch(noOfBatch + 1)
+                                }
+                                if (e.target.checked === false) {
+                                  unregister(`annTarget.batch[${noOfBatch}]`)
+                                  setNoOfBatch(noOfBatch - 1)
+                                }
+                              }}
+                            />
+                            <label
+                              className="btn btn-outline-primary"
+                              htmlFor="batch1"
+                            >
+                              2017
+                            </label>
+
+                            <input
+                              type="checkbox"
+                              className="btn-check"
+                              id="batch2"
+                              autocomplete="off"
+                              onChange={(e) => {
+                                if (e.target.checked === true) {
+                                  setValue(
+                                    `annTarget.batch[${noOfBatch}]`,
+                                    '2018',
+                                  )
+                                  setNoOfBatch(noOfBatch + 1)
+                                }
+                                if (e.target.checked === false) {
+                                  unregister(`annTarget.batch[${noOfBatch}]`)
+                                  setNoOfBatch(noOfBatch - 1)
+                                }
+                              }}
+                            />
+                            <label
+                              className="btn btn-outline-primary"
+                              htmlFor="batch2"
+                            >
+                              2018
+                            </label>
+
+                            <input
+                              type="checkbox"
+                              className="btn-check"
+                              id="batch3"
+                              autocomplete="off"
+                              onChange={(e) => {
+                                if (e.target.checked === true) {
+                                  setValue(
+                                    `annTarget.batch[${noOfBatch}]`,
+                                    '2019',
+                                  )
+                                  setNoOfBatch(noOfBatch + 1)
+                                }
+                                if (e.target.checked === false) {
+                                  unregister(`annTarget.batch[${noOfBatch}]`)
+                                  setNoOfBatch(noOfBatch - 1)
+                                }
+                              }}
+                            />
+                            <label
+                              className="btn btn-outline-primary"
+                              htmlFor="batch3"
+                            >
+                              2019
+                            </label>
+
+                            <input
+                              type="checkbox"
+                              className="btn-check"
+                              id="batch4"
+                              autocomplete="off"
+                              onChange={(e) => {
+                                if (e.target.checked === true) {
+                                  setValue(
+                                    `annTarget.batch[${noOfBatch}]`,
+                                    '2020',
+                                  )
+                                  setNoOfBatch(noOfBatch + 1)
+                                }
+                                if (e.target.checked === false) {
+                                  unregister(`annTarget.batch[${noOfBatch}]`)
+                                  setNoOfBatch(noOfBatch - 1)
+                                }
+                              }}
+                            />
+                            <label
+                              className="btn btn-outline-primary"
+                              htmlFor="batch4"
+                            >
+                              2020
+                            </label>
+                          </div>
+                        )}
                       </div>
 
                       <div className="invalid-feeback text-danger">
@@ -406,6 +546,16 @@ function CreateAnnouncement() {
           </form>
         </div>
       </div>
+      <Snackbar
+        open={isError || isSuccess}
+        autoHideDuration={4000}
+        onClose={handleClose}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+      >
+        <Alert onClose={handleClose} severity={isSuccess ? 'success' : 'error'}>
+          {message}
+        </Alert>
+      </Snackbar>
     </div>
   )
 }

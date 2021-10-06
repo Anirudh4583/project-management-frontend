@@ -49,7 +49,7 @@ export const announcementSchema = Yup.object().shape({
       isStudent: Yup.boolean().default(false),
       batch: Yup.array().when('isStudent', {
         is: true,
-        then: Yup.array().of(Yup.number()).required('Select atleast one batch'),
+        then: Yup.array().of(Yup.string()).required('Select atleast one batch'),
         otherwise: Yup.array().nullable(),
       }),
     })
