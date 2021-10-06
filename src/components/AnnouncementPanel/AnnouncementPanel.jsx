@@ -26,8 +26,7 @@ function AnnouncementPanel() {
   const [isDataFetched, setDataFetched] = useState(false)
   useEffect(() => {
     axios
-      .post('http://localhost:3001/api/announcement/', 
-        {role: role},
+      .get('http://localhost:3001/api/announcement/', 
         {
           headers: {
             accesstoken: getToken(),
@@ -60,11 +59,11 @@ function AnnouncementPanel() {
     setOpen(!open);
   };
   return (
-    <div className="mx-auto mt-5 container text-center">
+    <div className="mx-auto mt-5 container text-center ">
 
-        <h1>Announcement panel</h1>
-        <div className="mx-auto mt-3 card mx-2" style={{ width: '800px', justifyContent: 'center' }}>
-          <div className="mx-auto card-header" style={{ justifyContent: 'center', alignContent: 'center' }}>Announcements</div>
+        <h1>Threads panel</h1>
+        <div className="mx-auto mt-3  mx-2" style={{ width: '800px', justifyContent: 'center' }}>
+          
           {/* <div className="card-body"> */}
           <ul className="list-group list-group-flush"></ul>
           {!isDataFetched ? (
@@ -86,7 +85,7 @@ function AnnouncementPanel() {
           ) :
             (
               <List
-          className="border-2 border-dark border"
+          className="border-2 border-dark border m-auto"
           sx={{ width: '100%', maxWidth: 360 }}
           component="nav"
           aria-labelledby="Active Threads"
