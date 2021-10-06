@@ -1,25 +1,37 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { CircularProgress, Grid } from '@mui/material'
+import { CircularProgress, Grid} from '@mui/material';
 import { getToken } from '../../services/LocalStorageService/LocalStorageService'
 import { getRole } from '../../services/LocalStorageService/LocalStorageService'
+import ListSubheader from '@mui/material/ListSubheader';
+import List from '@mui/material/List';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import Collapse from '@mui/material/Collapse';
+import InboxIcon from '@mui/icons-material/MoveToInbox';
+import DraftsIcon from '@mui/icons-material/Drafts';
+import SendIcon from '@mui/icons-material/Send';
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
+import StarBorder from '@mui/icons-material/StarBorder';
+import Collapsable from './collapsable';
 
 const role = getRole()
 
 function AnnouncementPanel() {
   const [announcements, setAnnouncements] = useState([])
+  const [threads, setThreads] = useState([])
   const [isDataFetched, setDataFetched] = useState(false)
-  const [error, setError] = useState('')
   useEffect(() => {
     axios
-      .post(
-        'http://localhost:3001/api/announcement/',
-        { role },
+      .post('http://localhost:3001/api/announcement/', 
+        {role: role},
         {
           headers: {
             accesstoken: getToken(),
-          },
+          }
         },
       )
       .then((res) => {
@@ -28,61 +40,72 @@ function AnnouncementPanel() {
         setAnnouncements(res.data)
       })
       .catch((error) => {
-        console.error(error.response?.data?.message)
-        setError(error.response?.data?.message)
-        setDataFetched(true)
+        console.error(error.response)
       })
+
+      axios
+        .get('http://localhost:3001/api/thread/')
+        .then( (res)=> {
+          console.log('get thread 🚀', res)
+          setThreads(res.data.data);
+        })
+        .catch( (error)=> {
+          console.error(error.response)
+        })
   }, [])
   // console.log(announcements)
+  const [open, setOpen] = React.useState(true);
 
+  const handleClick = () => {
+    setOpen(!open);
+  };
   return (
     <div className="mx-auto mt-5 container text-center">
-      <h1>Announcement panel</h1>
-      <div
-        className="mx-auto mt-3 card mx-2"
-        style={{ width: '800px', justifyContent: 'center' }}
-      >
-        <div
-          className="mx-auto card-header"
-          style={{ justifyContent: 'center', alignContent: 'center' }}
-        >
-          Announcements
-        </div>
-        {/* <div className="card-body"> */}
-        <ul className="list-group list-group-flush"></ul>
-        {!isDataFetched ? (
-          <Grid
-            container
-            spacing={0}
-            direction="column"
-            alignItems="center"
-            justify="center"
-            style={{ minHeight: '15vh' }}
-          >
-            <Grid item xs={3}>
-              <CircularProgress />
+
+        <h1>Announcement panel</h1>
+        <div className="mx-auto mt-3 card mx-2" style={{ width: '800px', justifyContent: 'center' }}>
+          <div className="mx-auto card-header" style={{ justifyContent: 'center', alignContent: 'center' }}>Announcements</div>
+          {/* <div className="card-body"> */}
+          <ul className="list-group list-group-flush"></ul>
+          {!isDataFetched ? (
+            <Grid
+              container
+              spacing={0}
+              direction="column"
+              alignItems="center"
+              justify="center"
+              style={{ minHeight: '15vh' }}
+            >
+
+              <Grid item xs={3}>
+                <CircularProgress />
+              </Grid>
+
             </Grid>
-          </Grid>
-        ) : (
-          (error.lenght>0) ? (<h4>{error}</h4>)
-          :
-          announcements.map((a) => (
-            <li key={a.announcement_name} className="list-group-item">
-              <h5 className="card-title">{a.announcement_name}</h5>
-              <h6 className="card-subtitle mb-2 text-muted">{a.deadline}</h6>
-              <p className="card-text d-flex justify-content-between">
-                {a.announcement_data}
-                {a.form_id && (
-                  <Link to={`/form/${a.form_id}`} className="card-link">
-                    Fill up form
-                  </Link>
-                )}
-              </p>
-            </li>
-          ))
-        )}
+
+          ) :
+            (
+              <List
+          className="border-2 border-dark border"
+          sx={{ width: '100%', maxWidth: 360 }}
+          component="nav"
+          aria-labelledby="Active Threads"
+          subheader={
+            <ListSubheader component="div" id="nested-list-subheader">
+              Active Threads
+            </ListSubheader>
+          }
+        >
+            {threads.map( (a) => (
+                <Collapsable thread={a} />
+            ))}
+          </List>
+            )}
+           
+
+        </div>
       </div>
-    </div>
+    
   )
 }
 

@@ -5,13 +5,11 @@ import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import Collapse from '@mui/material/Collapse'
-import InboxIcon from '@mui/icons-material/MoveToInbox'
 import DraftsIcon from '@mui/icons-material/Drafts'
 import SendIcon from '@mui/icons-material/Send'
 import ExpandLess from '@mui/icons-material/ExpandLess'
 import ExpandMore from '@mui/icons-material/ExpandMore'
-import StarBorder from '@mui/icons-material/StarBorder'
-
+import Collapsable from '../../components/AnnouncementPanel/collapsable'
 function Home() {
   const [open, setOpen] = React.useState(true)
 
@@ -46,23 +44,7 @@ function Home() {
             </ListItemIcon>
             <ListItemText primary="Thread-2" secondary="Description" />
           </ListItemButton>
-          <ListItemButton onClick={handleClick}>
-            <ListItemIcon>
-              <SendIcon />
-            </ListItemIcon>
-            <ListItemText primary="Thread-3" />
-            {open ? <ExpandLess /> : <ExpandMore />}
-          </ListItemButton>
-          <Collapse in={open} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
-              <ListItemButton sx={{ pl: 4 }}>
-                <ListItemIcon>
-                  <DraftsIcon />
-                </ListItemIcon>
-                <ListItemText primary="Announcement-1" />
-              </ListItemButton>
-            </List>
-          </Collapse>
+          
         </List>
       </div>
     </div>
