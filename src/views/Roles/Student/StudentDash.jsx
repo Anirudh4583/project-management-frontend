@@ -24,8 +24,8 @@ function StudentDash() {
   }, [])
   return (
     <div>
-         <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+     <Box sx={{ flexGrow: 1 }}>
+      <AppBar position="static" >
         <Toolbar>
           <IconButton
             size="large"
@@ -37,7 +37,7 @@ function StudentDash() {
             {/* <MenuIcon /> */}
           </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Student
+            Admin
           </Typography>
           <Button color="inherit" onClick={() => {
                   removeSession()

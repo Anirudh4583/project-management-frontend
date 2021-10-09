@@ -59,7 +59,7 @@ function AnnouncementPanel() {
     setOpen(!open);
   };
   return (
-    <div className="mx-auto mt-5 container text-center ">
+    <div className="mx-auto mt-5 container text-center">
 
         <h1>Threads panel</h1>
         <div className="mx-auto mt-3  mx-2" style={{ width: '800px', justifyContent: 'center' }}>
@@ -85,8 +85,8 @@ function AnnouncementPanel() {
           ) :
             (
               <List
-          className="border-2 border-dark border m-auto"
-          sx={{ width: '100%', maxWidth: 360 }}
+          className="border-2 border-dark border m-auto "
+          sx={{ width: '100%', maxWidth: 540 }}
           component="nav"
           aria-labelledby="Active Threads"
           subheader={
