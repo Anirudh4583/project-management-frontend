@@ -26,8 +26,7 @@ function FacultyDash() {
 
   return (
     <div>
-      
-      <Box sx={{ flexGrow: 1 }}>
+       <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
           <IconButton

@@ -34,7 +34,7 @@ function AdminDash() {
       <CreateForm /> */}
 
       <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="static" style = {{ backgroundColor:"#37474f"}}>
         <Toolbar>
           <IconButton
             size="large"
