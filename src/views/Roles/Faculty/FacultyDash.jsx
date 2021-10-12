@@ -22,6 +22,33 @@ function FacultyDash() {
 
   return (
     <div>
+      <Box sx={{ flexGrow: 1 }}>
+        <AppBar position="static">
+          <Toolbar>
+            <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+              sx={{ mr: 2 }}
+            >
+              {/* <MenuIcon /> */}
+            </IconButton>
+            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+              Faculty
+            </Typography>
+            <Button
+              color="inherit"
+              onClick={() => {
+                removeSession()
+                history.push('/login')
+              }}
+            >
+              Logout
+            </Button>
+          </Toolbar>
+        </AppBar>
+      </Box>
       <h1> Announcement </h1>
       <AnnouncementPanel />
     </div>
