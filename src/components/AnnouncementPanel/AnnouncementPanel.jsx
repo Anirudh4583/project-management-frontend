@@ -24,9 +24,11 @@ function AnnouncementPanel() {
   const [announcements, setAnnouncements] = useState([])
   const [threads, setThreads] = useState([])
   const [isDataFetched, setDataFetched] = useState(false)
+  const [threadsAndAnnouncements, setThreadsAndAnnouncements] = useState([])
+  
   useEffect(() => {
     axios
-      .get('http://localhost:3001/api/announcement/', 
+      .get('http://localhost:3001/api/thread/', 
         {
           headers: {
             accesstoken: getToken(),
@@ -34,37 +36,35 @@ function AnnouncementPanel() {
         },
       )
       .then((res) => {
-        console.log('get anns 🚀', res)
+        console.log('get threads 🚀', res)
+        setThreadsAndAnnouncements(res.data);
         setDataFetched(true)
-        setAnnouncements(res.data)
       })
       .catch((error) => {
         console.error(error.response)
       })
-
-      axios
-        .get('http://localhost:3001/api/thread/')
-        .then( (res)=> {
-          console.log('get thread 🚀', res)
-          setThreads(res.data.data);
-        })
-        .catch( (error)=> {
-          console.error(error.response)
-        })
+      
   }, [])
-  // console.log(announcements)
-  const [open, setOpen] = React.useState(true);
-
+  let temp = [];
+  const [open, setOpen] = useState(true);
+  useEffect( () => {
+    threadsAndAnnouncements.map((ann) => {
+      if(!temp.includes(ann.thread_id)){
+        setThreads((old) =>  [...old,ann]
+         );
+        temp.push(ann.thread_id)
+      }
+    })
+    temp = [];
+  }
+  ,[threadsAndAnnouncements] )
   const handleClick = () => {
     setOpen(!open);
   };
   return (
     <div className="mx-auto mt-5 container text-center">
-
         <h1>Threads panel</h1>
         <div className="mx-auto mt-3  mx-2" style={{ width: '800px', justifyContent: 'center' }}>
-          
-          {/* <div className="card-body"> */}
           <ul className="list-group list-group-flush"></ul>
           {!isDataFetched ? (
             <Grid
@@ -75,11 +75,9 @@ function AnnouncementPanel() {
               justify="center"
               style={{ minHeight: '15vh' }}
             >
-
               <Grid item xs={3}>
                 <CircularProgress />
               </Grid>
-
             </Grid>
 
           ) :
@@ -96,7 +94,7 @@ function AnnouncementPanel() {
           }
         >
             {threads.map( (a) => (
-                <Collapsable thread={a} />
+                <Collapsable name={a.thread_name}id={a.thread_id} list={threadsAndAnnouncements} />
             ))}
           </List>
             )}
