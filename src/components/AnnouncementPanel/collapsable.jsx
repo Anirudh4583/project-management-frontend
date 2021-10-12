@@ -17,42 +17,28 @@ function Collapsable(props) {
     const handleClick = () => {
         setOpen(!open)
     }
-    const [announcements, setannouncements] = useState([]);
-    useEffect(() => {
-        axios
-            .post('http://localhost:3001/api/thread/linkedAnnouncements',{
-                threadID : props.thread.thread_id
-            }
-            )
-            .then( (res)=>{
-                
-                setannouncements(res.data)
-            })
-            .catch( (error) => {
-                console.error(error)
-            })
-    }, [])
     return (
         <div>
         <ListItemButton onClick={handleClick}>
             <ListItemIcon>
               <SendIcon />
             </ListItemIcon>
-            <ListItemText primary={props.thread.thread_name} />
+            <ListItemText primary={props.name} />
             {open ? <ExpandLess /> : <ExpandMore />}
           </ListItemButton>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
                 
-                    {console.log(announcements)}
                     {
-                    announcements.map((a) => (
+                    props.list.map((a) => (
+                        (a.thread_id==props.id) ?
                         <ListItemButton sx={{ pl: 4 }}>
                             <ListItemIcon>
                                 <DraftsIcon />
                             </ListItemIcon>
                             <ListItemText primary={a.announcement_name}/>
                         </ListItemButton>
+                        :null
                     ))
                 }
               
