@@ -1,5 +1,10 @@
 import React from 'react'
-import { Route, Redirect, NavLink } from 'react-router-dom'
+import { Route, Redirect } from 'react-router-dom'
+import AppBar from '@mui/material/AppBar'
+import Box from '@mui/material/Box'
+import Toolbar from '@mui/material/Toolbar'
+import Typography from '@mui/material/Typography'
+import IconButton from '@mui/material/IconButton'
 import {
   getRole,
   getToken,
@@ -9,23 +14,23 @@ function PublicRoute({ component: Component, ...rest }) {
   const userRole = getRole()
   return (
     <div className="pubr__app">
-      <nav className="navbar navbar-expand navbar-dark bg-dark">
-        <a className="navbar-brand" href="/">
-          Portal
-        </a>
-        <ul className="navbar-nav">
-          <li className="nav-item">
-            <NavLink exact activeClassName="active" to="/" className="nav-link">
-              Home
-            </NavLink>
-          </li>
-          <li className="nav-item">
-            <NavLink activeClassName="active" to="/login" className="nav-link">
-              Login
-            </NavLink>
-          </li>
-        </ul>
-      </nav>
+      <Box sx={{ flexGrow: 1 }}>
+        <AppBar position="static" style={{ backgroundColor: '#455a64' }}>
+          <Toolbar>
+            <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+            >
+              {/* <MenuIcon /> */}
+            </IconButton>
+            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+              Project Manager
+            </Typography>
+          </Toolbar>
+        </AppBar>
+      </Box>
 
       <Route
         {...rest}
