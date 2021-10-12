@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { get, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FormField } from '../compIndex'
 import axios from 'axios'
@@ -71,7 +71,7 @@ function CreateAnnouncement() {
       .catch((error) => {
         console.error(error.response)
         setIsError(true)
-        setMessage(error.response.data.err)
+        setMessage(error.response.data.error)
       })
 
     if (isSendMail) {

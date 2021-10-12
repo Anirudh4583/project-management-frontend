@@ -1,31 +1,23 @@
 import React from 'react'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
+
 // import MenuIcon from '@mui/icons-material/Menu';
 import {
   getRole,
   removeSession,
 } from '../../../services/LocalStorageService/LocalStorageService'
-import {
-  AnnouncementPanel,
-  CreateAnnouncement,
-} from '../../../components/compIndex'
+import { AnnouncementPanel } from '../../../components/compIndex'
 
 function AdminDash() {
-  const [click,setClick] = useState(false)
   const history = useHistory()
   useEffect(() => {
-    let checkAuth = getRole() == 0
+    let checkAuth = getRole() === '0'
     if (!checkAuth) {
       removeSession()
       history.push('/login')
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
@@ -59,19 +51,6 @@ function AdminDash() {
       </AppBar>
     </Box>
       <AnnouncementPanel />
-
-      {click && 
-      <div>
-      <h1>Create announcement</h1>
-      <Button color="error" onClick={() => {
-                  setClick(false)
-                }}>close</Button>
-           <CreateAnnouncement />
-          
-      </div>
-
-      }
-      
     </div>
   )
 }
