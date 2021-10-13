@@ -35,10 +35,15 @@ function CreateAnnouncement() {
 
   useEffect(() => {
     axios
-      .get('http://localhost:3001/api/thread/')
+      .get('http://localhost:3001/api/thread/all', 
+      {
+        headers: {
+        accesstoken: getToken(),
+      }
+    })
       .then((res) => {
         console.log('get threads 🚀', res)
-        setThreads(res.data.data)
+        setThreads(res.data)
       })
       .catch((error) => {
         console.error(error.response)
@@ -110,8 +115,8 @@ function CreateAnnouncement() {
   return (
     <div className="annCreate_app">
       <div className="FormMaker__app">
-        <div className="card">
-          <div className="card-header text-left bg-light fw-bold form-control-lg">
+        <div className="card mx-auto my-4 border-3 w-75">
+          <div className=" card-header text-center bg-light fw-bold form-control-lg  ">
             Create Announcement
           </div>
           <form
@@ -163,7 +168,7 @@ function CreateAnnouncement() {
                       {/* <option value={null} selected disabled hidden>
                         select target
                       </option> */}
-                      {threads.map((value) => {
+                      {threads.map((value,index) => {
                         return (
                           <option value={value.thread_id}>
                             {value.thread_name}

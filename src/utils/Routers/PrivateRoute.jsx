@@ -18,42 +18,7 @@ function PrivateRoute({ component: Component, ...rest }) {
   const history = useHistory()
   return (
     <>
-      <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="static" style={{ backgroundColor: '#455a64' }}>
-          <Toolbar>
-            <IconButton
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-            >
-              {/* <MenuIcon /> */}
-            </IconButton>
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              Admin
-            </Typography>
-
-            <Button color="inherit">
-              <Link
-                to="/create-announcement"
-                className="text-decoration-none text-white"
-              >
-                Create Ann
-              </Link>
-            </Button>
-
-            <Button
-              color="inherit"
-              onClick={() => {
-                removeSession()
-                history.push('/login')
-              }}
-            >
-              Logout
-            </Button>
-          </Toolbar>
-        </AppBar>
-      </Box>
+      
       <Route {...rest}>
         {getToken() ? <Component /> : <Redirect to={{ pathname: '/login' }} />}
       </Route>
