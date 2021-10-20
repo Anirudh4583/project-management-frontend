@@ -33,7 +33,7 @@ function FillForm() {
 
     axios
       .post(
-        'http://localhost:3001/api/submitForm/1',
+        'https://design-project-backend.herokuapp.com/api/submitForm/1',
         {
           data,
           formId,
@@ -59,7 +59,7 @@ function FillForm() {
   useEffect(() => {
     
     axios
-      .post('http://localhost:3001/api/viewForm/', 
+      .post('https://design-project-backend.herokuapp.com/api/viewForm/', 
         {formId: formId},
         {
           headers: {

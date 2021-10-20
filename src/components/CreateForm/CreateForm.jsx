@@ -31,7 +31,7 @@ function CreateForm() {
     console.log(JSON.stringify(data, null, 4))
 
     axios
-      .post('http://localhost:3001/api/announcement/add', 
+      .post('https://design-project-backend.herokuapp.com/api/announcement/add', 
         data,{
           headers:
           {

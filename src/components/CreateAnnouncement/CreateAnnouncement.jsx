@@ -35,7 +35,7 @@ function CreateAnnouncement() {
 
   useEffect(() => {
     axios
-      .get('http://localhost:3001/api/thread/all', 
+      .get('https://design-project-backend.herokuapp.com/api/thread/all', 
       {
         headers: {
         accesstoken: getToken(),
@@ -63,7 +63,7 @@ function CreateAnnouncement() {
     console.log(JSON.stringify(data, null, 4))
 
     axios
-      .post('http://localhost:3001/api/announcement/add', data, {
+      .post('https://design-project-backend.herokuapp.com/api/announcement/add', data, {
         headers: {
           accesstoken: getToken(),
         },
@@ -81,7 +81,7 @@ function CreateAnnouncement() {
 
     if (isSendMail) {
       axios
-        .post('http://localhost:3001/api/mail', {
+        .post('https://design-project-backend.herokuapp.com/api/mail', {
           // data,
           mailSubject: 'New Announcement Alert',
           mailBody: JSON.stringify(data, null, 4),

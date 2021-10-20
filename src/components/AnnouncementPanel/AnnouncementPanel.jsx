@@ -28,7 +28,7 @@ function AnnouncementPanel() {
   
   useEffect(() => {
     axios
-      .get('http://localhost:3001/api/thread/', 
+      .get('https://design-project-backend.herokuapp.com/api/thread/', 
         {
           headers: {
             accesstoken: getToken(),
