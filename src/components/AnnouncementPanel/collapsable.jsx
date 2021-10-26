@@ -11,9 +11,10 @@ import ExpandLess from '@mui/icons-material/ExpandLess'
 import ExpandMore from '@mui/icons-material/ExpandMore'
 import { getToken } from '../../services/LocalStorageService/LocalStorageService'
 import axios from 'axios'
+import AnnModal from '../AnnouncementModal/AnnModal'
 function Collapsable(props) {
-    const [open, setOpen] = React.useState(false)
-
+    
+  const [open, setOpen] = React.useState(false);
     const handleClick = () => {
         setOpen(!open)
     }
@@ -28,20 +29,13 @@ function Collapsable(props) {
           </ListItemButton>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
-                
                     {
                     props.list.map((a) => (
                         (a.thread_id==props.id) ?
-                        <ListItemButton sx={{ pl: 4 }}>
-                            <ListItemIcon>
-                                <DraftsIcon />
-                            </ListItemIcon>
-                            <ListItemText primary={a.announcement_name}/>
-                        </ListItemButton>
+                        <AnnModal Announcement={a} key={a.announcement_id} />
                         :null
                     ))
                 }
-              
             </List>
           </Collapse>
         </div>

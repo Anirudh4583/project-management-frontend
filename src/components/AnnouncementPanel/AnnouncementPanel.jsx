@@ -61,6 +61,7 @@ function AnnouncementPanel() {
   const handleClick = () => {
     setOpen(!open);
   };
+  
   return (
     <div className="mx-auto mt-5 container text-center">
         <h1>Threads panel</h1>
@@ -101,6 +102,7 @@ function AnnouncementPanel() {
            
 
         </div>
+        
       </div>
     
   )

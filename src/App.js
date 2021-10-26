@@ -1,7 +1,7 @@
 import React from 'react'
 import { BrowserRouter as Router, Switch } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import AnnouncementCard from './components/AnnouncementCard/AnnouncementCard'
+
 import { Home, Login, Dashboard } from './views/viewIndex'
 import PublicRoute from './utils/Routers/PublicRoute'
 import PrivateRoute from './utils/Routers/PrivateRoute'
@@ -17,7 +17,7 @@ function App() {
             <PublicRoute exact path="/" component={Home} />
             <PublicRoute path="/login" component={Login} />
             <PrivateRoute path="/:role/dashboard" component={Dashboard} />
-            <PrivateRoute path="/announcement" component={AnnouncementCard} />
+            
             <PrivateRoute path="/form/:formId" component={FillForm} />
             <PrivateRoute
               path="/create-announcement"
