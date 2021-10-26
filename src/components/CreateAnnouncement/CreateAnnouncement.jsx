@@ -6,8 +6,13 @@ import axios from 'axios'
 import { announcementSchema } from '../../services/ValidationSchemas/ValidationSchema'
 import { getToken } from '../../services/LocalStorageService/LocalStorageService'
 import { Alert, Snackbar } from '@mui/material'
-
+import { useHistory } from 'react-router'
+import {
+  getRole,
+  removeSession,
+} from '../../services/LocalStorageService/LocalStorageService'
 function CreateAnnouncement() {
+  const history = useHistory();
   const {
     register,
     handleSubmit,
@@ -32,7 +37,14 @@ function CreateAnnouncement() {
   const watchIsStudent = watch('annTarget.isStudent')
 
   const [threads, setThreads] = useState([])
-
+  useEffect(() => {
+    if(isSuccess){
+      let role = getRole()
+      let url = "/"+role+"/dashboard"
+      history.push(url);
+    }
+    
+  }, [isSuccess])
   useEffect(() => {
     axios
       .get('https://design-project-backend.herokuapp.com/api/thread/all', 
