@@ -23,8 +23,6 @@ function FillForm() {
   const [forms, setForms] = useState({})
   const [formFields, setFormFields] = useState([])
   const [formDeadline, setformDeadline] = useState(new Date())
-  // console.log(forms.form_data)
-  // console.log(formFields)
 
   const { formId } = useParams()
 
@@ -57,28 +55,26 @@ function FillForm() {
   }
 
   useEffect(() => {
-    
     axios
-      .post('https://design-project-backend.herokuapp.com/api/viewForm/', 
-        {formId: formId},
+      .post(
+        'https://design-project-backend.herokuapp.com/api/viewForm/',
+        { formId: formId },
         {
           headers: {
             accesstoken: getToken(),
-          }
+          },
         },
       )
       .then((res) => {
         console.log('get forms 🚀', res)
         setForms(res.data)
         setFormFields(res.data[0].form_fields)
-        console.log(new Date(res.data[0].form_deadline))
         setformDeadline(new Date(res.data[0].form_deadline))
       })
       .catch((error) => {
         console.error(error.response)
       })
-      console.log(currentDate)
-    console.log(formDeadline)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (

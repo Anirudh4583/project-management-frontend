@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { formMakerSchema } from '../../services/ValidationSchemas/ValidationSchema'
@@ -16,28 +16,25 @@ function CreateForm() {
   } = useForm({
     resolver: yupResolver(formMakerSchema),
   })
-
   const watchFields = watch('numberOfFields')
-  //   console.log(watchFields)
 
   function fieldNumbers() {
     return [...Array(parseInt(watchFields || 0)).keys()]
   }
-  //   console.log(fieldNumbers())
 
   function onSubmit(data, e) {
     console.log(data, e)
-    // alert('SUCCESS!')
     console.log(JSON.stringify(data, null, 4))
 
     axios
-      .post('https://design-project-backend.herokuapp.com/api/announcement/add', 
-        data,{
-          headers:
-          {
+      .post(
+        'https://design-project-backend.herokuapp.com/api/announcement/add',
+        data,
+        {
+          headers: {
             accesstoken: getToken(),
-          }
           },
+        },
       )
       .then((res) => {
         console.log('api response 🚀', res)
@@ -157,19 +154,6 @@ function CreateForm() {
                     errors={errors}
                   />
                 ))}
-
-                {/* <div className="form-group mt-3">
-                  <div className="form-check form-switch">
-                    <input
-                      type="checkbox"
-                      className="form-check-input"
-                      id="inputRev"
-                    />
-                    <label className="form-check-label" htmlFor="inputRev">
-                      Send order for review
-                    </label>
-                  </div>
-                </div> */}
               </div>
             </li>
           </ul>

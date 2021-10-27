@@ -7,12 +7,10 @@ import { announcementSchema } from '../../services/ValidationSchemas/ValidationS
 import { getToken } from '../../services/LocalStorageService/LocalStorageService'
 import { Alert, Snackbar } from '@mui/material'
 import { useHistory } from 'react-router'
-import {
-  getRole,
-  removeSession,
-} from '../../services/LocalStorageService/LocalStorageService'
+import { getRole } from '../../services/LocalStorageService/LocalStorageService'
+
 function CreateAnnouncement() {
-  const history = useHistory();
+  const history = useHistory()
   const {
     register,
     handleSubmit,
@@ -38,21 +36,20 @@ function CreateAnnouncement() {
 
   const [threads, setThreads] = useState([])
   useEffect(() => {
-    if(isSuccess){
+    if (isSuccess) {
       let role = getRole()
-      let url = "/"+role+"/dashboard"
-      history.push(url);
+      let url = '/' + role + '/dashboard'
+      history.push(url)
     }
-    
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess])
   useEffect(() => {
     axios
-      .get('https://design-project-backend.herokuapp.com/api/thread/all', 
-      {
+      .get('https://design-project-backend.herokuapp.com/api/thread/all', {
         headers: {
-        accesstoken: getToken(),
-      }
-    })
+          accesstoken: getToken(),
+        },
+      })
       .then((res) => {
         console.log('get threads 🚀', res)
         setThreads(res.data)
@@ -75,11 +72,15 @@ function CreateAnnouncement() {
     console.log(JSON.stringify(data, null, 4))
 
     axios
-      .post('https://design-project-backend.herokuapp.com/api/announcement/add', data, {
-        headers: {
-          accesstoken: getToken(),
+      .post(
+        'https://design-project-backend.herokuapp.com/api/announcement/add',
+        data,
+        {
+          headers: {
+            accesstoken: getToken(),
+          },
         },
-      })
+      )
       .then((res) => {
         console.log('api response 🚀', res)
         setIsSuccess(true)
@@ -180,9 +181,9 @@ function CreateAnnouncement() {
                       {/* <option value={null} selected disabled hidden>
                         select target
                       </option> */}
-                      {threads.map((value,index) => {
+                      {threads.map((value, index) => {
                         return (
-                          <option value={value.thread_id}>
+                          <option key={index} value={value.thread_id}>
                             {value.thread_name}
                           </option>
                         )
@@ -264,12 +265,12 @@ function CreateAnnouncement() {
                             type="checkbox"
                             className="btn-check"
                             id="isFaculty"
-                            autocomplete="off"
+                            autoComplete="off"
                             {...register('annTarget.isFaculty')}
                           />
                           <label
                             className="btn btn-outline-primary"
-                            for="isFaculty"
+                            htmlFor="isFaculty"
                           >
                             Faculty
                           </label>
@@ -284,12 +285,12 @@ function CreateAnnouncement() {
                             type="checkbox"
                             className="btn-check"
                             id="isStudent"
-                            autocomplete="off"
+                            autoComplete="off"
                             {...register('annTarget.isStudent')}
                           />
                           <label
                             className="btn btn-outline-primary"
-                            for="isStudent"
+                            htmlFor="isStudent"
                           >
                             Student
                           </label>
@@ -304,7 +305,7 @@ function CreateAnnouncement() {
                               type="checkbox"
                               className="btn-check"
                               id="batch1"
-                              autocomplete="off"
+                              autoComplete="off"
                               onChange={(e) => {
                                 if (e.target.checked === true) {
                                   setValue(
@@ -330,7 +331,7 @@ function CreateAnnouncement() {
                               type="checkbox"
                               className="btn-check"
                               id="batch2"
-                              autocomplete="off"
+                              autoComplete="off"
                               onChange={(e) => {
                                 if (e.target.checked === true) {
                                   setValue(
@@ -356,7 +357,7 @@ function CreateAnnouncement() {
                               type="checkbox"
                               className="btn-check"
                               id="batch3"
-                              autocomplete="off"
+                              autoComplete="off"
                               onChange={(e) => {
                                 if (e.target.checked === true) {
                                   setValue(
@@ -382,7 +383,7 @@ function CreateAnnouncement() {
                               type="checkbox"
                               className="btn-check"
                               id="batch4"
-                              autocomplete="off"
+                              autoComplete="off"
                               onChange={(e) => {
                                 if (e.target.checked === true) {
                                   setValue(
@@ -516,8 +517,8 @@ function CreateAnnouncement() {
                           }`}
                           id="numberOfFields"
                         >
-                          {['', 1, 2, 3, 4, 5].map((i) => (
-                            <option key={i} value={i}>
+                          {['', 1, 2, 3, 4, 5].map((i, index) => (
+                            <option key={index} value={i}>
                               {i}
                             </option>
                           ))}
