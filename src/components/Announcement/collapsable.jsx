@@ -7,7 +7,7 @@ import Collapse from '@mui/material/Collapse'
 import SendIcon from '@mui/icons-material/Send'
 import ExpandLess from '@mui/icons-material/ExpandLess'
 import ExpandMore from '@mui/icons-material/ExpandMore'
-import AnnModal from '../AnnouncementModal/AnnModal'
+import AnnouncementModal from './AnnouncementModal'
 
 function Collapsable(props) {
   const [open, setOpen] = useState(false)
@@ -27,7 +27,7 @@ function Collapsable(props) {
         <List component="div" disablePadding>
           {props.list.map((a) =>
             a.thread_id === props.id ? (
-              <AnnModal Announcement={a} key={a.announcement_id} />
+              <AnnouncementModal Announcement={a} key={a.announcement_id} />
             ) : null,
           )}
         </List>
