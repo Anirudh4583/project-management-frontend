@@ -1,7 +1,6 @@
 import React from 'react'
 
 function FormField({ field, register, errors }) {
-  //   console.log(errors)
   return (
     <div key={field} className="form-row row mt-3">
       {/* filed name */}
