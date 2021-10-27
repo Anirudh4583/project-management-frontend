@@ -22,7 +22,7 @@ const style = {
   p: 4,
 }
 
-function AnnModal(props) {
+function AnnouncementModal(props) {
   const history = useHistory()
   const [open, setOpen] = React.useState(false)
   const handleOpen = () => setOpen(true)
@@ -77,4 +77,4 @@ function AnnModal(props) {
   )
 }
 
-export default AnnModal
+export default AnnouncementModal

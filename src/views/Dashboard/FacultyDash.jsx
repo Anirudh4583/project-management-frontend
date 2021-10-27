@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react'
-import { Link, useHistory } from 'react-router-dom'
+import React from 'react'
+import { useEffect } from 'react'
+import { useHistory } from 'react-router-dom'
 import AppBar from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
 import Toolbar from '@mui/material/Toolbar'
@@ -9,14 +10,13 @@ import IconButton from '@mui/material/IconButton'
 import {
   getRole,
   removeSession,
-} from '../../../services/LocalStorageService/LocalStorageService'
-import { AnnouncementPanel } from '../../../components/compIndex'
+} from '../../services/LocalStorageService/LocalStorageService'
+import { AnnouncementPanel } from '../../components/Announcement'
 
-function AdminDash() {
+function FacultyDash() {
   const history = useHistory()
-
   useEffect(() => {
-    let checkAuth = getRole() === '0'
+    let checkAuth = getRole() === '1'
     if (!checkAuth) {
       removeSession()
       history.push('/login')
@@ -25,7 +25,7 @@ function AdminDash() {
   }, [])
 
   return (
-    <div className="AdminDash__app">
+    <div>
       <Box sx={{ flexGrow: 1 }}>
         <AppBar position="static" style={{ backgroundColor: '#455a64' }}>
           <Toolbar>
@@ -39,16 +39,8 @@ function AdminDash() {
               {/* <MenuIcon /> */}
             </IconButton>
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              Admin
+              Faculty
             </Typography>
-            <Button color="inherit" sx={{ flexGrow: 0.05 }}>
-              <Link
-                to="/create-announcement"
-                className="text-decoration-none text-white"
-              >
-                Create Announcement
-              </Link>
-            </Button>
             <Button
               color="inherit"
               onClick={() => {
@@ -61,9 +53,10 @@ function AdminDash() {
           </Toolbar>
         </AppBar>
       </Box>
+      <h1> Announcement </h1>
       <AnnouncementPanel />
     </div>
   )
 }
 
-export default AdminDash
+export default FacultyDash

@@ -1,6 +1,5 @@
-import React from 'react'
-import { useEffect } from 'react'
-import { useHistory } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { Link, useHistory } from 'react-router-dom'
 import AppBar from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
 import Toolbar from '@mui/material/Toolbar'
@@ -10,21 +9,23 @@ import IconButton from '@mui/material/IconButton'
 import {
   getRole,
   removeSession,
-} from '../../../services/LocalStorageService/LocalStorageService'
-import { AnnouncementPanel } from '../../../components/compIndex'
+} from '../../services/LocalStorageService/LocalStorageService'
+import { AnnouncementPanel } from '../../components/Announcement'
 
-function StudentDash() {
+function AdminDash() {
   const history = useHistory()
+
   useEffect(() => {
-    let checkAuth = getRole() === '2'
+    let checkAuth = getRole() === '0'
     if (!checkAuth) {
       removeSession()
       history.push('/login')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
   return (
-    <div>
+    <div className="AdminDash__app">
       <Box sx={{ flexGrow: 1 }}>
         <AppBar position="static" style={{ backgroundColor: '#455a64' }}>
           <Toolbar>
@@ -38,8 +39,16 @@ function StudentDash() {
               {/* <MenuIcon /> */}
             </IconButton>
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              Student
+              Admin
             </Typography>
+            <Button color="inherit" sx={{ flexGrow: 0.05 }}>
+              <Link
+                to="/create-announcement"
+                className="text-decoration-none text-white"
+              >
+                Create Announcement
+              </Link>
+            </Button>
             <Button
               color="inherit"
               onClick={() => {
@@ -57,4 +66,4 @@ function StudentDash() {
   )
 }
 
-export default StudentDash
+export default AdminDash

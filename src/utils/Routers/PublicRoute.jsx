@@ -1,9 +1,10 @@
 import React from 'react'
-import { Route, Redirect } from 'react-router-dom'
+import { Route, Redirect, useHistory } from 'react-router-dom'
 import AppBar from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
+import Button from '@mui/material/Button'
 import IconButton from '@mui/material/IconButton'
 import {
   getRole,
@@ -11,6 +12,7 @@ import {
 } from '../../services/LocalStorageService/LocalStorageService'
 
 function PublicRoute({ component: Component, ...rest }) {
+  const history = useHistory()
   const userRole = getRole()
   return (
     <div className="pubr__app">
@@ -25,9 +27,18 @@ function PublicRoute({ component: Component, ...rest }) {
             >
               {/* <MenuIcon /> */}
             </IconButton>
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            <Typography
+              variant="h6"
+              component="div"
+              sx={{ flexGrow: 1, cursor: 'pointer' }}
+              onClick={() => history.push('/')}
+            >
               Project Manager
             </Typography>
+
+            <Button color="inherit" onClick={() => history.push('/login')}>
+              Login
+            </Button>
           </Toolbar>
         </AppBar>
       </Box>

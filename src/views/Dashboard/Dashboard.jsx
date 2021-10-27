@@ -3,7 +3,7 @@ import {
   getRole,
   // removeSession,
 } from '../../services/LocalStorageService/LocalStorageService'
-import { AdminDash, FacultyDash, StudentDash } from '../viewIndex'
+import { AdminDash, FacultyDash, StudentDash } from '..'
 
 function Dashboard() {
   // const history = useHistory()
