@@ -1,5 +1,6 @@
 # Getting Started with Create React App
-
+Backend repo https://github.com/Anirudh4583/project-management-backend.git
+frontend repo https://github.com/Anirudh4583/project-management-frontend.git
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
