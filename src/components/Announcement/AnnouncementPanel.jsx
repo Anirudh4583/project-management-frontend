@@ -47,7 +47,7 @@ function AnnouncementPanel() {
     <div className="mx-auto mt-5 container text-center">
       <h1>Threads panel</h1>
       <div
-        className="mx-auto mt-3  mx-2"
+        className="mx-auto mt-3 mx-2"
         style={{ width: '800px', justifyContent: 'center' }}
       >
         <ul className="list-group list-group-flush"></ul>
