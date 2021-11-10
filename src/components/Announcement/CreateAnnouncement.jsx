@@ -138,76 +138,80 @@ function CreateAnnouncement() {
             className="card-body"
           >
             <ul className="list-group list-group-flush">
-              <li className="list-group-item">
-                <div className="form-group form-switch ms-2 me-auto my-2 p-0">
-                  <label htmlFor="isNewThread" className="form-check-label">
-                    New Thread?
-                  </label>
-                  <input
-                    type="checkbox"
-                    {...register(`isNewThread`)}
-                    className="form-check-input mx-3"
-                    id="isNewThread"
-                  />
-                </div>
-
-                {watchIsNewThread ? (
-                  <div className="form-group col-md-3 col-sm-4 has-validation">
-                    <label htmlFor="threadName">Thread Name</label>
-                    <input
-                      type="text"
-                      {...register('threadData.threadName')}
-                      className={`form-control ${
-                        errors.threadData?.threadName ? 'is-invalid' : ''
-                      }`}
-                      id="threadName"
-                      placeholder="Thread1"
-                    />
-                    <div className="invalid-feeback text-danger">
-                      {errors.threadData?.threadName?.message}
+              <li className="list-group-item row">
+                <div class="row">
+                  <div class="col-sm">
+                    <div className="form-group form-switch ms-2 me-auto my-2 p-0 col-sm">
+                      <label htmlFor="isNewThread" className="form-check-label">
+                        New Thread?
+                      </label>
+                      <input
+                        type="checkbox"
+                        {...register(`isNewThread`)}
+                        className="form-check-input mx-3"
+                        id="isNewThread"
+                      />
                     </div>
                   </div>
-                ) : (
-                  <div className="form-group col-md-2 col-sm-4">
-                    <label htmlFor="linkThreadID">Link To thread</label>
-                    <select
-                      {...register('threadData.linkThreadID')}
-                      className={`form-control ${
-                        errors.threadData?.linkThreadID ? 'is-invalid' : ''
-                      }`}
-                      id="linkThreadID"
-                      defaultValue={''}
-                    >
-                      {/* <option value={null} selected disabled hidden>
+                  <div className="col-sm">
+                    {watchIsNewThread ? (
+                      <div className="form-group col-md-3 col-sm-4 has-validation">
+                        <label htmlFor="threadName">Thread Name</label>
+                        <input
+                          type="text"
+                          {...register('threadData.threadName')}
+                          className={`form-control ${errors.threadData?.threadName ? 'is-invalid' : ''
+                            }`}
+                          id="threadName"
+                          placeholder="Thread1"
+                        />
+                        <div className="invalid-feeback text-danger">
+                          {errors.threadData?.threadName?.message}
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="form-group col-md-2 col-sm-4">
+                        <label htmlFor="linkThreadID">Link To thread</label>
+                        <select
+                          {...register('threadData.linkThreadID')}
+                          className={`form-control ${errors.threadData?.linkThreadID ? 'is-invalid' : ''
+                            }`}
+                          id="linkThreadID"
+                          defaultValue={''}
+                        >
+                          {/* <option value={null} selected disabled hidden>
                         select target
                       </option> */}
-                      {threads.map((value, index) => {
-                        return (
-                          <option key={index} value={value.thread_id}>
-                            {value.thread_name}
-                          </option>
-                        )
-                      })}
-                    </select>
+                          {threads.map((value, index) => {
+                            return (
+                              <option key={index} value={value.thread_id}>
+                                {value.thread_name}
+                              </option>
+                            )
+                          })}
+                        </select>
 
-                    <div className="invalid-feeback text-danger">
-                      {errors.threadData?.linkThreadID?.message}
-                    </div>
+                        <div className="invalid-feeback text-danger">
+                          {errors.threadData?.linkThreadID?.message}
+                        </div>
+                      </div>
+                    )}
                   </div>
-                )}
+                </div>
               </li>
+
               <li className="list-group-item">
                 <div className="ms-2 me-auto">
                   <div className="fw-bold">Announcement Details</div>
-                  <div className="form-row row mb-3">
+                  <div className="row">
+                  <div className="col-sm">
                     <div className="form-group col-md-3 col-sm-4 has-validation">
                       <label htmlFor="annName">Announcement Name</label>
                       <input
                         type="text"
                         {...register('annName')}
-                        className={`form-control ${
-                          errors.annName ? 'is-invalid' : ''
-                        }`}
+                        className={`form-control ${errors.annName ? 'is-invalid' : ''
+                          }`}
                         id="annName"
                         placeholder="Announcement1"
                       />
@@ -216,15 +220,14 @@ function CreateAnnouncement() {
                       </div>
                     </div>
                   </div>
-                  <div className="form-row row mb-3">
+                  <div className="col-sm">
                     <div className="form-group col-md-6 col-sm-8 has-validation">
                       <label htmlFor="annData">Announcement Details</label>
                       <textarea
                         rows="3"
                         {...register('annData')}
-                        className={`form-control ${
-                          errors.annData ? 'is-invalid' : ''
-                        }`}
+                        className={`form-control ${errors.annData ? 'is-invalid' : ''
+                          }`}
                         id="annData"
                         placeholder="Instructions, details etc.."
                       />
@@ -233,6 +236,8 @@ function CreateAnnouncement() {
                       </div>
                     </div>
                   </div>
+                  </div>
+                  
                 </div>
               </li>
               <li className="list-group-item">
@@ -453,9 +458,8 @@ function CreateAnnouncement() {
                           <input
                             type="text"
                             {...register('formName')}
-                            className={`form-control ${
-                              errors.formName ? 'is-invalid' : ''
-                            }`}
+                            className={`form-control ${errors.formName ? 'is-invalid' : ''
+                              }`}
                             id="formName"
                             placeholder="Form 1"
                           />
@@ -469,9 +473,8 @@ function CreateAnnouncement() {
                           <input
                             type="date"
                             {...register('deadline')}
-                            className={`form-control ${
-                              errors?.deadline ? 'is-invalid' : ''
-                            }`}
+                            className={`form-control ${errors?.deadline ? 'is-invalid' : ''
+                              }`}
                             id="deadline"
                           />
                           <div className="invalid-feeback text-danger">
@@ -485,9 +488,8 @@ function CreateAnnouncement() {
                           <textarea
                             rows="3"
                             {...register('formData')}
-                            className={`form-control ${
-                              errors.formData ? 'is-invalid' : ''
-                            }`}
+                            className={`form-control ${errors.formData ? 'is-invalid' : ''
+                              }`}
                             id="formData"
                             placeholder="Form instructions, details etc.."
                           />
@@ -512,9 +514,8 @@ function CreateAnnouncement() {
                         <select
                           name="numberOfFields"
                           {...register('numberOfFields')}
-                          className={`form-control ${
-                            errors.numberOfFields ? 'is-invalid' : ''
-                          }`}
+                          className={`form-control ${errors.numberOfFields ? 'is-invalid' : ''
+                            }`}
                           id="numberOfFields"
                         >
                           {['', 1, 2, 3, 4, 5].map((i, index) => (
