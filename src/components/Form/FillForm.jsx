@@ -26,9 +26,31 @@ function FillForm() {
 
   const { formId } = useParams()
 
-  function onSubmit(data, e) {
-    console.log(data, e)
+  useEffect(() => {
+    axios
+      .post(
+        'https://design-project-backend.herokuapp.com/api/viewForm/',
+        { formId: formId },
+        {
+          headers: {
+            accesstoken: getToken(),
+          },
+        },
+      )
+      .then((res) => {
+        console.log('get form 🚀', res)
+        setForms(res.data)
+        setFormFields(res.data[0].form_fields)
+        setformDeadline(new Date(res.data[0].form_deadline))
+      })
+      .catch((error) => {
+        console.error(error.response)
+      })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
+  function onSubmit(data, e) {
+    // console.log('%cSubmit', 'color: red', data, e)
     axios
       .post(
         'https://design-project-backend.herokuapp.com/api/submitForm/1',
@@ -53,29 +75,6 @@ function FillForm() {
   function onError(data, e) {
     console.log(data, e)
   }
-
-  useEffect(() => {
-    axios
-      .post(
-        'https://design-project-backend.herokuapp.com/api/viewForm/',
-        { formId: formId },
-        {
-          headers: {
-            accesstoken: getToken(),
-          },
-        },
-      )
-      .then((res) => {
-        console.log('get forms 🚀', res)
-        setForms(res.data)
-        setFormFields(res.data[0].form_fields)
-        setformDeadline(new Date(res.data[0].form_deadline))
-      })
-      .catch((error) => {
-        console.error(error.response)
-      })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
 
   return (
     <>
