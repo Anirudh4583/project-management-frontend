@@ -15,9 +15,9 @@ function PublicRoute({ component: Component, ...rest }) {
   const history = useHistory()
   const userRole = getRole()
   return (
-    <div className="pubr__app">
+    <div className="pubr__app z-50">
       <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="static" style={{ backgroundColor: '#455a64' }}>
+        <AppBar position="static" style={{ backgroundColor: '#36AAC8' }}>
           <Toolbar>
             <IconButton
               size="large"
@@ -32,11 +32,16 @@ function PublicRoute({ component: Component, ...rest }) {
               component="div"
               sx={{ flexGrow: 1, cursor: 'pointer' }}
               onClick={() => history.push('/')}
+              className="fw-bold fs-4"
             >
               Project Manager
             </Typography>
 
-            <Button color="inherit" onClick={() => history.push('/login')}>
+            <Button
+              color="inherit"
+              variant="outlined"
+              onClick={() => history.push('/login')}
+            >
               Login
             </Button>
           </Toolbar>
