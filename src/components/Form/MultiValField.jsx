@@ -7,9 +7,9 @@ function MultiValField({ field, id, register, setValue, errors, getValues }) {
     <div className="form-row row">
       <div className="form-group col-md-2 col-sm-4 has-validation">
         <label htmlFor="fieldData">{field.fieldName}</label>
-        <kbd className="mx-4">
+        {/* <kbd className="mx-4">
           {JSON.stringify(getValues(`fields.${id}.fieldData`), null, 0)}
-        </kbd>
+        </kbd> */}
         {noOfFieldData.map((item, index) => (
           <input
             {...register(`fields.${id}.fieldData.${item}`)}
