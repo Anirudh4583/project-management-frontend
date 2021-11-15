@@ -30,7 +30,7 @@ function PrivateRoute({ component: Component, ...rest }) {
   return (
     <>
       <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="static" style={{ backgroundColor: '#455a64' }}>
+        <AppBar position="static" style={{ backgroundColor: '#36AAC8' }}>
           <Toolbar>
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               Project Management
