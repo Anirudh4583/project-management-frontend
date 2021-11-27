@@ -95,6 +95,8 @@ export const announcementSchema = Yup.object().shape({
     ),
     otherwise: Yup.array().nullable(),
   }),
+
+  isProjectIdea: Yup.bool().default(false),
 })
 
 export const fillFormSchema = Yup.object().shape({
