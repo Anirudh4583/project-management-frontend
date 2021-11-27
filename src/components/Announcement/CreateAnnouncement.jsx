@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useHistory } from 'react-router-dom'
-import { Alert, Snackbar } from '@mui/material'
+import { Alert, Snackbar, Tooltip } from '@mui/material'
 import axios from 'axios'
 import { announcementSchema } from '../../services/ValidationSchemas/ValidationSchema'
 import { getToken } from '../../services/LocalStorageService/LocalStorageService'
 import { getRole } from '../../services/LocalStorageService/LocalStorageService'
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
 import FormField from '../Form/FormField'
 
 function CreateAnnouncement() {
@@ -160,8 +161,9 @@ function CreateAnnouncement() {
                         <input
                           type="text"
                           {...register('threadData.threadName')}
-                          className={`form-control ${errors.threadData?.threadName ? 'is-invalid' : ''
-                            }`}
+                          className={`form-control ${
+                            errors.threadData?.threadName ? 'is-invalid' : ''
+                          }`}
                           id="threadName"
                           placeholder="Thread1"
                         />
@@ -174,8 +176,9 @@ function CreateAnnouncement() {
                         <label htmlFor="linkThreadID">Link To thread</label>
                         <select
                           {...register('threadData.linkThreadID')}
-                          className={`form-control ${errors.threadData?.linkThreadID ? 'is-invalid' : ''
-                            }`}
+                          className={`form-control ${
+                            errors.threadData?.linkThreadID ? 'is-invalid' : ''
+                          }`}
                           id="linkThreadID"
                           defaultValue={''}
                         >
@@ -204,40 +207,41 @@ function CreateAnnouncement() {
                 <div className="ms-2 me-auto">
                   <div className="fw-bold">Announcement Details</div>
                   <div className="row">
-                  <div className="col-sm">
-                    <div className="form-group col-md-3 col-sm-4 has-validation">
-                      <label htmlFor="annName">Announcement Name</label>
-                      <input
-                        type="text"
-                        {...register('annName')}
-                        className={`form-control ${errors.annName ? 'is-invalid' : ''
+                    <div className="col-sm">
+                      <div className="form-group col-md-3 col-sm-4 has-validation">
+                        <label htmlFor="annName">Announcement Name</label>
+                        <input
+                          type="text"
+                          {...register('annName')}
+                          className={`form-control ${
+                            errors.annName ? 'is-invalid' : ''
                           }`}
-                        id="annName"
-                        placeholder="Announcement1"
-                      />
-                      <div className="invalid-feeback text-danger">
-                        {errors.annName?.message}
+                          id="annName"
+                          placeholder="Announcement1"
+                        />
+                        <div className="invalid-feeback text-danger">
+                          {errors.annName?.message}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-sm">
+                      <div className="form-group col-md-6 col-sm-8 has-validation">
+                        <label htmlFor="annData">Announcement Details</label>
+                        <textarea
+                          rows="3"
+                          {...register('annData')}
+                          className={`form-control ${
+                            errors.annData ? 'is-invalid' : ''
+                          }`}
+                          id="annData"
+                          placeholder="Instructions, details etc.."
+                        />
+                        <div className="invalid-feeback text-danger">
+                          {errors.annData?.message}
+                        </div>
                       </div>
                     </div>
                   </div>
-                  <div className="col-sm">
-                    <div className="form-group col-md-6 col-sm-8 has-validation">
-                      <label htmlFor="annData">Announcement Details</label>
-                      <textarea
-                        rows="3"
-                        {...register('annData')}
-                        className={`form-control ${errors.annData ? 'is-invalid' : ''
-                          }`}
-                        id="annData"
-                        placeholder="Instructions, details etc.."
-                      />
-                      <div className="invalid-feeback text-danger">
-                        {errors.annData?.message}
-                      </div>
-                    </div>
-                  </div>
-                  </div>
-                  
                 </div>
               </li>
               <li className="list-group-item">
@@ -458,8 +462,9 @@ function CreateAnnouncement() {
                           <input
                             type="text"
                             {...register('formName')}
-                            className={`form-control ${errors.formName ? 'is-invalid' : ''
-                              }`}
+                            className={`form-control ${
+                              errors.formName ? 'is-invalid' : ''
+                            }`}
                             id="formName"
                             placeholder="Form 1"
                           />
@@ -473,8 +478,9 @@ function CreateAnnouncement() {
                           <input
                             type="date"
                             {...register('deadline')}
-                            className={`form-control ${errors?.deadline ? 'is-invalid' : ''
-                              }`}
+                            className={`form-control ${
+                              errors?.deadline ? 'is-invalid' : ''
+                            }`}
                             id="deadline"
                           />
                           <div className="invalid-feeback text-danger">
@@ -482,14 +488,44 @@ function CreateAnnouncement() {
                           </div>
                         </div>
                       </div>
+
+                      <div className="form-group form-switch me-auto my-2 p-0">
+                        <label
+                          htmlFor="isProjectIdea"
+                          className="form-check-label"
+                        >
+                          Project Idea Form?
+                          {'   '}
+                          <Tooltip
+                            title="Form for project idea submission by faculties?"
+                            placement="right"
+                          >
+                            <InfoOutlinedIcon
+                              sx={{
+                                width: '15px',
+                                marginBottom: '4px',
+                              }}
+                              color="info"
+                            />
+                          </Tooltip>
+                        </label>
+                        <input
+                          type="checkbox"
+                          {...register(`isProjectIdea`)}
+                          className="form-check-input mx-3"
+                          id="isProjectIdea"
+                        />
+                      </div>
+
                       <div className="form-row row mb-3">
                         <div className="form-group col-md-6 col-sm-8 has-validation">
                           <label htmlFor="formData">Form Details</label>
                           <textarea
                             rows="3"
                             {...register('formData')}
-                            className={`form-control ${errors.formData ? 'is-invalid' : ''
-                              }`}
+                            className={`form-control ${
+                              errors.formData ? 'is-invalid' : ''
+                            }`}
                             id="formData"
                             placeholder="Form instructions, details etc.."
                           />
@@ -514,8 +550,9 @@ function CreateAnnouncement() {
                         <select
                           name="numberOfFields"
                           {...register('numberOfFields')}
-                          className={`form-control ${errors.numberOfFields ? 'is-invalid' : ''
-                            }`}
+                          className={`form-control ${
+                            errors.numberOfFields ? 'is-invalid' : ''
+                          }`}
                           id="numberOfFields"
                         >
                           {['', 1, 2, 3, 4, 5].map((i, index) => (
