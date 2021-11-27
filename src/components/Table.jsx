@@ -15,10 +15,9 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
 import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 import { Button } from '@mui/material'
-import { Link } from 'react-router-dom'
+// import { Link } from 'react-router-dom'
 
-function Row(props) {
-  const { row } = props
+function Row({ row }) {
   const [open, setOpen] = React.useState(false)
 
   return (
@@ -34,46 +33,58 @@ function Row(props) {
           </IconButton>
         </TableCell>
         <TableCell component="th" scope="row" align="center">
-          {row.SNo}
+          {row.faculty_id}
         </TableCell>
-        <TableCell align="center">{row.FacultyName}</TableCell>
-        <TableCell align="center">{row.TotalGroups}</TableCell>
-        <TableCell align="center">{row.GroupsRemaining}</TableCell>
+        <TableCell align="center">
+          {row.facultyname.substring(2, row.facultyname.length - 2)}
+        </TableCell>
+        <TableCell align="center">{row.ideas.length}</TableCell>
+        <TableCell align="center">
+          {row.available.filter((x) => x === '1').length}
+        </TableCell>
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
               <Typography variant="h6" gutterBottom component="div">
-                Projects
+                - Projects -
               </Typography>
               <Table size="small" aria-label="purchases">
                 <TableHead>
                   <TableRow>
-                    <TableCell align="center">S.No</TableCell>
-                    <TableCell align="center">Project Idea</TableCell>
-                    <TableCell align="center">Available</TableCell>
-                    <TableCell align="center">Apply</TableCell>
+                    {/* <TableCell align="center" className="fw-bold">
+                      S.No
+                    </TableCell> */}
+                    <TableCell align="center" className="fw-bold">
+                      Project Idea
+                    </TableCell>
+                    <TableCell align="center" className="fw-bold">
+                      Available
+                    </TableCell>
+                    <TableCell align="center" className="fw-bold">
+                      Apply
+                    </TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {row.Projects.map((row) => (
-                    <TableRow key={row.SNo}>
-                      <TableCell component="th" scope="row" align="center">
-                        {row.SNo}
-                      </TableCell>
-                      <TableCell align="center">{row.ProjectIdea}</TableCell>
+                  {row.ideas.map((idea, index) => (
+                    <TableRow key={index}>
+                      {/* <TableCell component="th" scope="row" align="center">
+                        {row.faculty_id}
+                      </TableCell> */}
+                      <TableCell align="center">{idea}</TableCell>
                       <TableCell align="center">
-                        {row.isAvailable ? 'YES' : 'NO'}
+                        {row.available[index] === '1' ? 'YES' : 'NO'}
                       </TableCell>
                       <TableCell align="center">
-                        {row.isAvailable ? (
-                          <Link to={row.Link}>
-                            <Button variant="outlined">
-                              Apply <OpenInNewIcon />
-                            </Button>
-                          </Link>
+                        {row.available[index] === '1' ? (
+                          // <Link to={idea.Link}>
+                          <Button variant="outlined">
+                            Apply <OpenInNewIcon />
+                          </Button>
                         ) : (
+                          // </Link>
                           <Button
                             variant="outlined"
                             color="error"
@@ -97,86 +108,39 @@ function Row(props) {
 
 Row.propTypes = {
   row: PropTypes.shape({
-    SNo: PropTypes.number.isRequired,
-    FacultyName: PropTypes.string.isRequired,
-    TotalGroups: PropTypes.number.isRequired,
-    GroupsRemaining: PropTypes.string.isRequired,
+    faculty_id: PropTypes.number.isRequired,
+    facultyname: PropTypes.string.isRequired,
+    // TotalGroups: PropTypes.number.isRequired,
+    // GroupsRemaining: PropTypes.string.isRequired,
 
-    Projects: PropTypes.arrayOf(
-      PropTypes.shape({
-        SNo: PropTypes.number.isRequired,
-        ProjectIdea: PropTypes.string.isRequired,
-        isAvailable: PropTypes.bool.isRequired,
-        Link: PropTypes.string,
-      }),
-    ).isRequired,
+    ideas: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+    available: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
   }).isRequired,
 }
 
-const rows = [
-  {
-    SNo: 1,
-    FacultyName: 'Faculty 1',
-    TotalGroups: 3,
-    GroupsRemaining: 1,
-    Projects: [
-      {
-        SNo: 1,
-        ProjectIdea: 'Project Idea 1',
-        isAvailable: false,
-      },
-      {
-        SNo: 2,
-        ProjectIdea: 'Project Idea 2',
-        isAvailable: true,
-        Link: '/project/apply/12',
-      },
-      {
-        SNo: 3,
-        ProjectIdea: 'Project Idea 3',
-        isAvailable: false,
-      },
-    ],
-  },
-  {
-    SNo: 2,
-    FacultyName: 'Faculty 2',
-    TotalGroups: 2,
-    GroupsRemaining: 2,
-    Projects: [
-      {
-        SNo: 1,
-        ProjectIdea: 'Project Idea 1',
-        isAvailable: true,
-        Link: '/project/apply/2',
-      },
-      {
-        SNo: 2,
-        ProjectIdea: 'Project Idea 2',
-        isAvailable: true,
-        Link: '/project/apply/21',
-      },
-    ],
-  },
-]
-
-function CollapsibleTable() {
+function CollapsibleTable({ rows }) {
   return (
     <TableContainer component={Paper}>
       <Table aria-label="collapsible table">
         <TableHead>
           <TableRow>
             <TableCell />
-            <TableCell align="center">S.No</TableCell>
-            <TableCell align="center">Faculty Name</TableCell>
-            <TableCell align="center">Total Groups</TableCell>
-            <TableCell align="center">Groups Remaining</TableCell>
+            <TableCell align="center" className="fw-bold">
+              ID
+            </TableCell>
+            <TableCell align="center" className="fw-bold">
+              Faculty Name
+            </TableCell>
+            <TableCell align="center" className="fw-bold">
+              Total Groups
+            </TableCell>
+            <TableCell align="center" className="fw-bold">
+              Groups Remaining
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <Row key={row.name} row={row} />
-          ))}
+          {rows && rows.map((row, index) => <Row key={index} row={row} />)}
         </TableBody>
       </Table>
     </TableContainer>

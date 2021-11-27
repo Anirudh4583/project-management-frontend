@@ -6,7 +6,6 @@ import {
   removeSession,
 } from '../../services/LocalStorageService/LocalStorageService'
 import { AnnouncementPanel } from '../../components/Announcement'
-import CollapsibleTable from '../../components/Table'
 
 function StudentDash() {
   const history = useHistory()
@@ -18,11 +17,10 @@ function StudentDash() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
   return (
     <div>
-
       <AnnouncementPanel />
-      <CollapsibleTable />
     </div>
   )
 }
