@@ -7,6 +7,7 @@ import PrivateRoute from './utils/Routers/PrivateRoute'
 import { Dashboard, Home, Login } from './views'
 import { FillForm } from './components/Form'
 import { CreateAnnouncement } from './components/Announcement'
+import ViewTable from './views/Dashboard/ViewTable'
 
 function App() {
   return (
@@ -18,11 +19,12 @@ function App() {
             <PublicRoute path="/login" component={Login} />
             <PrivateRoute path="/:role/dashboard" component={Dashboard} />
 
-            <PrivateRoute path="/form/:formId" component={FillForm} />
             <PrivateRoute
               path="/create-announcement"
               component={CreateAnnouncement}
             />
+            <PrivateRoute path="/form/:formId" component={FillForm} />
+            <PrivateRoute path="/status/:formId" component={ViewTable} />
           </Switch>
         </div>
       </Router>
