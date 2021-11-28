@@ -31,6 +31,11 @@ function AnnouncementModal(props) {
     let url = '/form/' + props.Announcement.form_id + '/'
     history.push(url)
   }
+  const handleStatus = () => {
+    let url = '/status/' + props.Announcement.form_id + '/'
+    history.push(url)
+  }
+  console.log(props.Announcement)
   return (
     <div>
       <ListItemButton onClick={handleOpen} sx={{ pl: 4 }}>
@@ -70,6 +75,10 @@ function AnnouncementModal(props) {
             {props.Announcement.form_id && (
               <Button onClick={handleFillForm}>Fill Form</Button>
             )}
+            {props.Announcement.form_id && (
+              <Button onClick={handleStatus} color={'error'}>View Application Status</Button>
+            )}
+            
           </Box>
         </Fade>
       </Modal>
