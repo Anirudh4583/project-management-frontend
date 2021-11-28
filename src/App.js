@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter as Router, Switch } from 'react-router-dom'
+import { BrowserRouter as Router, Switch,Redirect } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 import PublicRoute from './utils/Routers/PublicRoute'
@@ -15,7 +15,7 @@ function App() {
       <Router>
         <div className="content">
           <Switch>
-            <PublicRoute exact path="/" component={Home} />
+            <Redirect exact from="/" to="/login" />
             <PublicRoute path="/login" component={Login} />
             <PrivateRoute path="/:role/dashboard" component={Dashboard} />
 
