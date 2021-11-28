@@ -6,7 +6,7 @@ import { useParams } from 'react-router-dom'
 import { getToken } from '../../services/LocalStorageService/LocalStorageService'
 import { fillFormSchema } from '../../services/ValidationSchemas/ValidationSchema'
 import MultiValField from './MultiValField'
-
+import { useHistory } from 'react-router'
 function FillForm() {
   const {
     register,
@@ -18,7 +18,7 @@ function FillForm() {
   } = useForm({
     resolver: yupResolver(fillFormSchema),
   })
-
+  const history = useHistory()
   const currentDate = new Date()
   const [forms, setForms] = useState({})
   const [formFields, setFormFields] = useState([])
@@ -66,6 +66,7 @@ function FillForm() {
       )
       .then((res) => {
         console.log('api response 🚀', res)
+        history.push('/dashboard')
       })
       .catch((error) => {
         console.error(error.response)
