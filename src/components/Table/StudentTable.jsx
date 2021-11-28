@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React,{useEffect} from 'react'
 import PropTypes from 'prop-types'
 import Box from '@mui/material/Box'
 import Collapse from '@mui/material/Collapse'
@@ -16,10 +16,50 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
 import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 import { Button } from '@mui/material'
 // import { Link } from 'react-router-dom'
-
-function Row({ row }) {
+import { getToken , getUserEmail} from '../../services/LocalStorageService/LocalStorageService'
+import axios from 'axios'
+function Row({ row ,form}) {
   const [open, setOpen] = React.useState(false)
+  const handleApply =(index) => {
+    console.log('apply')
+    const token = getToken()
+    const data = {
+      formId: form,
+      facultyId:row.faculty_id,
+      idea : row.idea[index],
+    }
+    console.log(data)
+    console.log(token)
+    axios
+     .post('https://design-project-backend.herokuapp.com/api/user/apply',data,{
+       headers: {
+        accesstoken: token,         
+       }
+      })
+      .then((res) => {
+        console.log('apply', res.data)
+        window.location.reload()
+      })
+      .catch((err) => {
+        console.log(err)
+      })
 
+  }
+
+      const checkApplied = (idea) => {
+            const email = getUserEmail()
+            let a = 0;
+            row.applied?.forEach((item) => {
+              
+                if(item?.split(':')[1]?.includes(email) && item?.split(':')[0] === idea){
+                  console.log(item?.split(':')[1] ,email);
+                   a=1;
+                }
+                
+
+            })
+            return a===1;
+      }
   return (
     <React.Fragment>
       <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
@@ -36,11 +76,11 @@ function Row({ row }) {
           {row.faculty_id}
         </TableCell>
         <TableCell align="center">
-          {row.facultyname.substring(2, row.facultyname.length - 2)}
+          {row.name.substring(2, row.name?.length - 2)}
         </TableCell>
-        <TableCell align="center">{row.ideas.length}</TableCell>
+        <TableCell align="center">{row.idea?.length}</TableCell>
         <TableCell align="center">
-          {row.available.filter((x) => x === '1').length}
+          {row.available?.filter((x) => x === '1').length}
         </TableCell>
       </TableRow>
       <TableRow>
@@ -68,23 +108,30 @@ function Row({ row }) {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {row.ideas.map((idea, index) => (
+                  {row.idea?.map((idea, index) => (
                     <TableRow key={index}>
                       {/* <TableCell component="th" scope="row" align="center">
                         {row.faculty_id}
                       </TableCell> */}
                       <TableCell align="center">{idea}</TableCell>
                       <TableCell align="center">
-                        {row.available[index] === '1' ? 'YES' : 'NO'}
+                        {(row.available && row.available[index] === '1') ? 'YES' : 'NO'}
                       </TableCell>
                       <TableCell align="center">
-                        {row.available[index] === '1' ? (
+                        {(row.available && row.available[index] === '1' )? (checkApplied(idea) ?
+                        (
+                          <Button variant="outlined" color="success" style={{cursor:"not-allowed"}}>
+                          Applied
+                          </Button>
+                        ):
+                         (
                           // <Link to={idea.Link}>
-                          <Button variant="outlined">
+                          <Button variant="outlined" onClick={()=>handleApply(index)}>
                             Apply <OpenInNewIcon />
                           </Button>
-                        ) : (
+                        )) : (
                           // </Link>
+                          
                           <Button
                             variant="outlined"
                             color="error"
@@ -109,16 +156,16 @@ function Row({ row }) {
 Row.propTypes = {
   row: PropTypes.shape({
     faculty_id: PropTypes.number.isRequired,
-    facultyname: PropTypes.string.isRequired,
+    // facultyname: PropTypes.string.isRequired,
     // TotalGroups: PropTypes.number.isRequired,
     // GroupsRemaining: PropTypes.string.isRequired,
-
-    ideas: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+    name: PropTypes.string.isRequired,
+    idea: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
     available: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
   }).isRequired,
 }
 
-function CollapsibleTable({ rows }) {
+function StudentTable({ rows,form }) {
   return (
     <TableContainer component={Paper}>
       <Table aria-label="collapsible table">
@@ -140,10 +187,10 @@ function CollapsibleTable({ rows }) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows && rows.map((row, index) => <Row key={index} row={row} />)}
+          {rows && rows.map((row, index) => <Row form={form} key={index} row={row} />)}
         </TableBody>
       </Table>
     </TableContainer>
   )
 }
-export default CollapsibleTable
+export default StudentTable
