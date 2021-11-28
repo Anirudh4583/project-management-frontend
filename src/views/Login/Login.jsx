@@ -42,7 +42,8 @@ function Login() {
         console.log('login api response 🚀', res)
         const userRole = res.data.role[0]
         const token = res.data.accessToken
-        setSession(token, userRole)
+        const email = res.data.email
+        setSession(token, userRole,email)
         history.push(`/${userRole}/dashboard`)
       })
       .catch((error) => {
