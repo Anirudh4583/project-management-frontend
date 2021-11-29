@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter as Router, Switch,Redirect } from 'react-router-dom'
+import { BrowserRouter as Router, Switch } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 import PublicRoute from './utils/Routers/PublicRoute'
@@ -8,6 +8,7 @@ import { Dashboard, Home, Login } from './views'
 import { FillForm } from './components/Form'
 import { CreateAnnouncement } from './components/Announcement'
 import ViewTable from './views/Dashboard/ViewTable'
+import Grades from './views/Grades'
 
 function App() {
   return (
@@ -15,7 +16,7 @@ function App() {
       <Router>
         <div className="content">
           <Switch>
-            <Redirect exact from="/" to="/login" />
+            <PublicRoute exact path="/" component={Home} />
             <PublicRoute path="/login" component={Login} />
             <PrivateRoute path="/:role/dashboard" component={Dashboard} />
 
@@ -25,6 +26,8 @@ function App() {
             />
             <PrivateRoute path="/form/:formId" component={FillForm} />
             <PrivateRoute path="/status/:formId" component={ViewTable} />
+
+            <PrivateRoute path="/grades" component={Grades} />
           </Switch>
         </div>
       </Router>
