@@ -73,6 +73,9 @@ function PrivateRoute({ component: Component, ...rest }) {
               <Link to="/" className="text-decoration-none text-black">
                 <MenuItem onClick={handleClose}>Dashboard</MenuItem>
               </Link>
+              <Link to="/grades" className="text-decoration-none text-black">
+                <MenuItem onClick={handleClose}>Grades</MenuItem>
+              </Link>
               {(userRole === '0' || userRole === '1') && (
                 <Link
                   to="/create-announcement"
