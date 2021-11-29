@@ -90,7 +90,7 @@ function Row({ row ,form , id ,applicants,data}) {
         <TableCell align="center">
           {row}
         </TableCell>
-        <TableCell align="center">{applicants.filter(item => item.idea===row).length}</TableCell>
+        <TableCell align="center">{applicants?.filter(item => item.idea===row).length}</TableCell>
         
       </TableRow>
       <TableRow>
