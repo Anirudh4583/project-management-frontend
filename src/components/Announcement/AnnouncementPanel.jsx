@@ -82,6 +82,7 @@ function AnnouncementPanel() {
                 name={a.thread_name}
                 id={a.thread_id}
                 list={threadsAndAnnouncements}
+                
               />
             ))}
           </List>
